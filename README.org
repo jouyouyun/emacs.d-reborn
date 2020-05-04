@@ -1,0 +1,427 @@
+#+OPTIONS: toc:nil num:nil ^:{} <:{} timestamp:nil
+#+TITLE: Emacs 配置重写
+
+有想重写 =emacs= 配置的想法很久了，一直因为各种原因而没实施，今天终于开始重写了。
+
+上一份 =emacs= 的配置是参考 [[https://github.com/bbatsov/prelude][prelude]] 写的，新版本依然会按照其架构( =core=, =modules=, =personal= )配置。
+但具体的配置模块会根据自我需求一一重写，同时会记录下配置过程。预计实现的模块如下：
+
+** Prepare
+
+*** Dependencies
+
++ =aspell-en=
+
+  拼写检查
+
++ =locate=
+
+  =counsel-locate= 使用
+
++ =silversearcher-ag=
+
+  =counsel-ag= 和 =helm-ag= 使用
+
++ =git=
+
++ =golang=
+
+  - =go get -u -v github.com/klauspost/asmfmt/cmd/asmfmt=
+  - =go get -u -v github.com/go-delve/delve/cmd/dlv=
+  - =go get -u -v github.com/kisielk/errcheck=
+  - =go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct=
+  - =go get -u -v github.com/mdempsky/gocode=
+  - =go get -u -v github.com/stamblerre/gocode=
+
+    gocode with  go mod supported
+
+  - =go get -u -v github.com/rogpeppe/godef=
+  - =go get -u -v github.com/zmb3/gogetdoc=
+  - =go get -u -v golang.org/x/tools/cmd/goimports=
+  - =go get -u -v golang.org/x/lint/golint=
+  - =go get -u -v golang.org/x/tools/gopls@latest=
+  - =go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint=
+  - =go get -u -v github.com/fatih/gomodifytags=
+  - =go get -u -v golang.org/x/tools/cmd/gorename=
+  - =go get -u -v github.com/jstemmer/gotags=
+  - =go get -u -v golang.org/x/tools/cmd/guru=
+  - =go get -u -v github.com/josharian/impl=
+  - =go get -u -v honnef.co/go/tools/cmd/keyify=
+  - =go get -u -v github.com/fatih/motion=
+  - =go get -u -v github.com/koron/iferr=
+
++ =c/c++=
+
+  - =bear=
+
+    =Makefile= 的 =compile_commands.json= 生成工具
+
+  - =ccls=
+
+    #+BEGIN_SRC shell
+    # dependencies: cmake, clang, gcc, make, clang+llvm headers and libraries
+    sudo apt-get install cmake make gcc clang libclang-dev llvm-dev rapidjson-dev
+    git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+    cd ccls
+    mkdir build && cd build
+    cmake ../  -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON
+    cmake --build Release -j 32
+    sudo cp Release/ccls /usr/local/bin/
+    #+END_SRC
+
+    =ccls= 在使用时需要在项目的根目录中指定以下文件：
+
+      - =compile_commands.json=
+
+      这个文件通常是自动生成，根据不同的编译系统命令不同，分别如下：
+
+        + =camke=
+
+        #+BEGIN_SRC shell
+        cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+        ln -s Debug/compile_commands.json .
+        #+END_SRC
+
+        + =Makefile=
+
+        首先安装 =bear= 工具，用这个工具生成，命令如下：
+
+        #+BEGIN_SRC shell
+        bear make
+        #+END_SRC
+
+        + =ninja=
+
+        #+BEGIN_SRC shell
+        # Format: ninja -t compdb rule_names... > compile_commands.json
+        ninja -C out/Release -t compdb cxx cc > compile_commands.json
+        #+END_SRC
+
+      - =.ccls=
+
+        =.ccls= 中使用 =-I, -D= 等指定头文件目录和宏定义，中间不能包含空格。示例如下：
+
+        #+BEGIN_SRC shell
+        %compile_commands.json
+        %c -std=c11
+        %cpp -std=c++14
+        %c %cpp -pthread
+        %h %hpp --include=Global.h
+        #+END_SRC
+
+    更多使用方法参见： [[https://github.com/MaskRay/ccls/wiki/Project-Setup][Project Setup]]
+
+** Core
+
+=init.el= 文件是 =emacs= 启动后入口，故在这个文件中实现配置文件的模块化加载， 模块目录的说明如下：
+
++ =core= : 存放核心模块，必须加载
++ =modules= : 存放可选模块，根据配置文件 =loaded-modules.el= 的设置加载
++ =personal= : 存放私有模块，自动扫描加载
+
+=init.el= 配置的关键代码：
+
+**** 定义目录变量
+
+#+BEGIN_SRC elisp
+(defvar config-dir (file-name-directory load-file-name)
+  "Emacs configuration root dir.")
+(defvar config-core-dir (expand-file-name "core" config-dir)
+  "Emacs core modules dir.")
+(defvar config-modules-dir (expand-file-name "modules" config-dir)
+  "Emacs optional modules dir.")
+(defvar config-personal-dir (expand-file-name "personal" config-dir)
+  "Emacs personal modules dir.")
+(defvar config-modules-file (expand-file-name "loaded-modules.el" config-personal-dir)
+  "This file contains a list of optional modules will be loaded.")
+#+END_SRC
+
+**** =core= 模块加载
+
+=core= 中的模块需要全部加载，但模块之间有顺序要求，所以需要在一一按顺序 =require=
+
+#+BEGIN_SRC elisp
+(require 'core-packages)
+(require 'core-variables)
+(require 'core-ui)
+(require 'core-buffer)
+(require 'core-window)
+(require 'core-editor)
+(require 'core-projects)
+(require 'core-search)
+(require 'core-env-path)
+(require 'core-terminal)
+#+END_SRC
+
+**注意：** =core-variables.el= 定义了一些配置项，若在 =personal= 中改了默认值，需要紧随其后加载。
+
+**** =modules= 模块加载
+
+=modules= 中的模块通过 =personal/loaded-modules.el= 指明需要加载的模块，故直接加载这个文件
+
+#+BEGIN_SRC elisp
+(if (file-exists-p config-modules-file)
+    (progn
+      (load config-modules-file))
+  (message "Missing optional modules file %s" config-modules-file)
+  (message "You can get started by copying the example file from sample/loaded-modules/el"))
+#+END_SRC
+
+**** =personal= 模块加载
+
+=personal= 目录下的所有模块都会被加载，模块之间不应有顺序要求，加载时要过滤掉 =loaded-modules.el= 文件
+
+#+BEGIN_SRC elisp
+(when (file-exists-p config-personal-dir)
+  (message "Loading personal modules in %s..." config-personal-dir)
+  (mapc 'load (delete
+               config-modules-file
+               (directory-files config-personal-dir 't "^[^#\.].*\\.el$"))))
+#+END_SRC
+
+--------
+--------
+
+*** Package Management
+
+=package= 模块中设置了仓库，提供了 =packages= 更新的接口并包装了安装函数。
+
+关键代码如下：
+
+**** 设置仓库
+
+#+BEGIN_SRC lisp
+;; repository help: https://mirror.tuna.tsinghua.edu.cn/help/elpa/
+(setq package-archives '(
+                         ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+                         ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+#+END_SRC
+
+
+**** 安装函数
+
+#+BEGIN_SRC lisp
+(defun wen-require-package (package)
+  "Install PACKAGE unless already installed."
+  (unless (memq package preloaded-packages)
+    (add-to-list 'preloaded-packages package))
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(defun wen-require-packages (packages)
+  "Ensure PACKAGES are installed."
+  (mapc #'wen-require-package packages))
+#+END_SRC
+
+**** 更新函数
+
+#+BEGIN_SRC lisp
+(defun wen-update ()
+  "Update Wen to its latest version."
+  (interactive)
+  (when (y-or-n-p "Do you want to update Wen? ")
+    (message "Updating installed packages...")
+    (epl-upgrade)
+    (message "Updating Wen...")
+    (cd config-dir)
+    (shell-command "git pull")
+    (wen-recompile-init)
+    (message "Update finished. Restart Emacs to complete the process.")))
+
+(defun wen-update-packages ()
+  "Update Wen's packages."
+  (interactive "P")
+  (when (y-or-n-p "Do you want to update packages? ")
+    (if arg
+        (epl-upgrade)
+      (epl-upgrade (cl-remove-if-not (lambda (p) (memq (epl-package-name p) preloaded-packages))
+                                     (epl-installed-packages))))
+    (message "Update finished. Restart Emacs to complete the process.")))
+#+END_SRC
+
+*** UI Features
+
+**** Theme
+
+主题根据 =wen-theme= 变量指定，默认是 =zenburn= 。
+
+**** Font
+
+字体这块目前只提供了字体放大和缩小的功能，字体的配置跟随系统。
+
+常用快捷键如下：
+
+#+BEGIN_SRC shell
+C-+ # 调大字体
+C-- # 调小字体
+#+END_SRC
+
+**** Opacity
+
+使用 =seethru= 实现透明度的更改。
+
+常用快捷键如下：
+
+#+BEGIN_SRC shell
+C-x 8 # 调小透明度
+C-x 9 # 调大透明度
+C-x 0 # 重置透明度
+#+END_SRC
+
+*** Buffer Management
+
+=Buffer= 的管理与使用的 =frontend= 密切相关，支持 =ivy= 和 =helm= ，默认使用 =ivy=.
+
+**** ivy
+
+常用快捷键如下：
+
+#+BEGIN_SRC shell
+C-c C-r # 恢复上一次的补全
+F6 # 恢复上一次的补全
+C-s # 使用 swiper 搜索
+M-x # 使用 counsel 补全
+C-x C-f # 访问文件
+F1 f # 显示函数描述
+F1 v # 显示变量描述
+F1 l # 显示 library 描述
+F2 i # 查找 symbol
+F2 u # 插入 unicode char
+C-c g # 在当前 git 项目中查找文件
+C-c j # 在当前 git 项目中搜索
+C-c k # 使用 ag 搜索当前目录
+C-x l # 调用 locate 命令
+C-c s # tramp for ssh, docker
+C-c p # 项目管理
+#+END_SRC
+
+**** helm
+
+常用快捷键如下：
+
+#+BEGIN_SRC shell
+S-? # 使用 ag 搜索
+C-c h # helm 快捷键帮助
+#+END_SRC
+
+*** Window Management
+
+使用 =ace-window= 来进行窗口切换。
+
+常用快捷键如下：
+
+#+BEGIN_SRC shell
+C-x o # 窗口调整
+#+END_SRC
+
+*** Project Management
+
+使用 =projectile= 管理项目， =frontend= 也提供了对应的集成插件，故具体的配置在 =core-ivy= 或 =core-helm= 中。
+
+快捷键前缀是 =C-c p=
+
+*** Editor Features
+
++ =editorconfig=
+
+  自动根据项目中的 =.editorconfig= 来配置编辑器
+
++ =avy=
+
+  快速跳转到指定的字符，单词和行，常用快捷键如下：
+
+  #+BEGIN_SRC shell
+  M-g c # 跳转到字符
+  M-g w # 跳转到单词
+  M-g f # 跳转到行
+  #+END_SRC
+
++ =anzu=
+
+  高亮匹配的内容，替代了 =query-replace= 和 =query-replace-regexp= ，快捷键如下：
+
+  #+BEGIN_SRC shell
+  M-% # 查找并替换
+  C-M-% # 正则查找并替换
+  #+END_SRC
+
++ =multi-cursor=
+
+  多光标模式，可快速更改多个相同的匹配项。常用快捷键如下：
+
+  #+BEGIN_SRC shell
+  C-S-c C-S-c # 编辑选中区域中的每一行
+  C-> # 标记下一个匹配项
+  C-< # 标记上一个匹配项
+  C-c C-< # 标记所有的匹配项
+  C-c C-s # 跳到下一个匹配项
+  #+END_SRC
+
++ =popup-kill-ring=
+
+  显示 =kill-ring= 历史，常用快捷键如下：
+
+  #+BEGIN_SRC shell
+  M-y # 显示历史列表
+  #+END_SRC
+
++ =flyspell=
+
+  拼写检查，依赖 =aspell= 需要安装 =aspell-en=
+
++ =tab=
+
+  使用 =tab= 作为缩进， =width= 为 =4=
+
++ 其他
+
+  - 自动匹配括号
+  - 自动加载文件当文件发生改变
+  - 保存访问历史
+
+
+  #+BEGIN_SRC shell
+  M-w # 复制整行或者选择的区域
+  M-; # 开启或取消注释
+  #+END_SRC
+
+
+*** Terminal
+
+使用 =eshell= 和 =multi-term(zsh)= ，配置如下：
+
+**** eshell
+
+#+BEGIN_SRC shell
+C-x m # 启动或切换到激活的 eshell
+C-x M # 开启一个新的 eshell
+C-x M-m # 开启一个普通的 shell
+#+END_SRC
+
+**** multi-term
+
+#+BEGIN_SRC shell
+C-c M-t # 打开 shell，默认是 zsh
+C-c C-c # 终止
+C-c M-e # 发送 ESC 键
+C-c M-[ # 切换到前一个 shell
+C-c M-] # 切换到后一个 shell
+C-c C-j # term line 模式
+C-c C-k # term char 模式，可编辑
+C-p # 上一行
+C-n # 下一行
+C-r # 搜索历史
+C-y # 粘贴
+M-f # 跳到前一个单词
+M-b # 调到后一个单词
+M-DEL # 删除前一个单词
+M-d # 删除当前单词
+#+END_SRC
+
+*** Tips
+
+每次启动后随机提示一个快捷键的功能
+
+
+** Modules
