@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "lib": [ "dom", "vue" ]
+    },
+    "exclude": [
+        "node_modules",
+        "ios",
+        "android",
+        ".git"
+    ]
+}

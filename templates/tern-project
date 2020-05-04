@@ -1,0 +1,17 @@
+{
+  "libs": [
+    "jquery",
+    "vue"
+  ],
+  "loadEagerly": [
+    "./static/*.js"
+  ],
+  "dontLoad": [
+    "./bower_components/"
+  ],
+  "plugins": {
+    "requirejs": {
+      "baseURL": "./"
+    }
+  }
+}
