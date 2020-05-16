@@ -60,6 +60,8 @@
 (require 'core-env-path)
 (require 'core-terminal)
 (require 'core-org)
+(require 'core-chinese)
+(require 'core-autoinsert)
 (require 'core-tips)
 
 (message "Loading optional modules...")
@@ -98,7 +100,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(ox-mediawiki ox-gfm htmlize go-mode zop-to-char zenburn-theme whole-line-or-region which-key volatile-highlights use-package undo-tree super-save smartrep smartparens seethru popup-kill-ring operate-on-number multiple-cursors multi-term lsp-ivy guru-mode gitignore-mode gitconfig-mode git-timemachine gist expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl crux counsel-tramp counsel-projectile beacon async anzu all-the-icons-ivy ace-window))))
+	(highlight-parentheses ox-mediawiki ox-gfm htmlize go-mode zop-to-char zenburn-theme whole-line-or-region which-key volatile-highlights use-package undo-tree super-save smartrep smartparens seethru popup-kill-ring operate-on-number multiple-cursors multi-term lsp-ivy guru-mode gitignore-mode gitconfig-mode git-timemachine gist expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl crux counsel-tramp counsel-projectile beacon async anzu all-the-icons-ivy ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -10,11 +10,14 @@
 ;; the toolbar is just a waste of valuable screen estate
 ;; in a tty tool-bar-mode does not properly auto-load, and is
 ;; already disabled anyway
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
+;; (when (fboundp 'tool-bar-mode)
+;;   (tool-bar-mode -1))
 
 ;; hide menu bar
-(menu-bar-mode -1)
+;; (menu-bar-mode -1)
+;; Disable menubar, toolbar and scrollbar
+(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+  (when (fboundp mode) (funcall mode -1)))
 
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
@@ -78,8 +81,7 @@
 ;; "C-c 8" and "C-c 9"
 (seethru-recommended-keybinds "C-c")
 (global-set-key (kbd "C-c 0")
-                (lambda ()
-                  (seathru 100)))
+				(lambda () (interactive) (seethru 100)))
 ;; hold control while wheeling mouse to change transparency
 (seethru-mouse-bindings "C")
 

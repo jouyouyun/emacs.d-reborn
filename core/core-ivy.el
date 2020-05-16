@@ -7,7 +7,7 @@
 ;; This file sets up ivy, swiper and counsel.
 
 ;;; Code:
-(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy))
+(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy counsel-gtags))
 
 (require 'ivy)
 (ivy-mode 1)
@@ -57,6 +57,17 @@
 ;; counsel-projectile
 ;; project management
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; counsel-gtags
+(require 'counsel-gtags)
+(add-hook 'c-mode-hook 'counsel-gtags-mode)
+(add-hook 'c++-mode-hook counsel-gtags-mode)
+
+(with-eval-after-load 'counsel-gtags
+  (define-key counsel-gtags-mode-map (kbd "M-t") 'counsel-gtags-find-definition)
+  (define-key counsel-gtags-mode-map (kbd "M-r") 'counsel-gtags-find-reference)
+  (define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
+  (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-pop-stack))
 
 (provide 'core-ivy)
 

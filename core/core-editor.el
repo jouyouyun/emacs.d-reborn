@@ -98,7 +98,19 @@
 
 ;; smart paring for all
 (require 'smartparens-config)
+(setq sp-base-key-bindings 'paredit)
+(setq sp-autoskip-closing-pair 'always)
+(setq sp-hybrid-kill-entire-symbol nil)
+(sp-use-paredit-bindings)
 (show-smartparens-global-mode +1)
+
+;; highlight parentheses
+(require 'highlight-parentheses)
+(define-globalized-minor-mode global-highlight-parentheses-mode
+  highlight-parentheses-mode
+  (lambda ()
+    (highlight-parentheses-mode t)))
+(global-highlight-parentheses-mode t)
 
 ;; disable annoying blink-matching-paren
 (setq blink-matching-paren t)
@@ -332,6 +344,26 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
                                (cons (string-to-number (match-string 2 name))
                                      (string-to-number (or (match-string 3 name) ""))))
                             fn))) files)))
+
+;;; search
+
+;; expand-region
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;; search selected text
+(defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
+  (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
+      (progn
+        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+        (deactivate-mark)
+        ad-do-it
+        (if (not forward)
+            (isearch-repeat-backward)
+          (goto-char (mark))
+          (isearch-repeat-forward)))
+    ad-do-it))
+
 
 (provide 'core-editor)
 

@@ -8,12 +8,11 @@
 
 ;;; Code:
 
-;;; (when wen-frontend
-;;;   (if (eq wen-frontend "ivy")
-;;;       (require 'core-ivy))
-;;;   (require 'core-helm))
-
-(require 'core-ivy)
+(when wen-frontend
+  (message "Will set frontend mode to %s" wen-frontend)
+  (if (equal wen-frontend "ivy")
+      (require 'core-ivy)
+  (require 'core-helm)))
 
 ;; meaningful names for buffers with the same name
 (require 'uniquify)

@@ -56,6 +56,21 @@
 
 (add-hook 'org-export-before-processing-hook 'wen-org-inline-css-hook)
 
+;;; markdown
+(wen-require-package 'ox-gfm)
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
+
+;; markdown review
+;; flymd
+;; see: http://devlz.com/2016/08/07/emacs-Markdown%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88/
+(wen-require-package 'flymd)
+(defun my-flymd-browser-function (url)
+  (let ((browser-url-browser-function 'browse-url-firefox))
+    (browse-url url)))
+(setq flymd-browser-function 'my-flymd-browser-function)
+(setq flymd-output-directory "/tmp")
+
 (provide 'core-org)
 
 ;;; core-org.el ends here
