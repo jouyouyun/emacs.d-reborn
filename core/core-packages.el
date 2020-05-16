@@ -52,14 +52,14 @@
     which-key
     zenburn-theme
     seethru ;; easily change Emacs' frame transparency
-	super-save
-	diminish
-	diff-hl
+    super-save
+    diminish
+    diff-hl
     volatile-highlights
-	operate-on-number
-	htmlize
-	ox-gfm
-	ox-mediawiki
+    operate-on-number
+    htmlize
+    ox-gfm
+    ox-mediawiki
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 

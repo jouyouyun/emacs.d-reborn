@@ -75,9 +75,9 @@
 
 ;; change frame opacity
 (require 'seethru)
-;; "C-x 8" and "C-x 9"
-(seethru-recommended-keybinds "C-x")
-(global-set-key (kbd "C-x 0")
+;; "C-c 8" and "C-c 9"
+(seethru-recommended-keybinds "C-c")
+(global-set-key (kbd "C-c 0")
                 (lambda ()
                   (seathru 100)))
 ;; hold control while wheeling mouse to change transparency
