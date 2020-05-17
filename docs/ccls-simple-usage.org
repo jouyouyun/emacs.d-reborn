@@ -1,0 +1,4 @@
+#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil
+#+TITLE: ccls 示例
+
+这里通过 =makefile= 演示如何使用 =ccls= ，详细如下：

@@ -19,17 +19,16 @@
 ;; (add-hook 'c++-mode-hook 'wen-c-common-defaults)
 
 (defun wen-ccls-create-compile-json-cmake (dir)
-  (if (not (= 0 (call-process "cmake" nil nil nil " -p"))) ; tagfile doesn't exist?
-      (let ((default-directory dir))
-        (shell-command "gtags")
-        (message "tagfile created by GNU Global"))
-    ;;  tagfile already exists; update it
-    (shell-command "global -u")
-    (message "tagfile updated by GNU Global")))
+  (shell-command "cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES && ln -s Debug/compile_commands.json .")
+  (message "compile_commands.json created by cmake"))
 
-(defun wen-ccls-create-compile-json-makefile (dir))
+(defun wen-ccls-create-compile-json-makefile (dir)
+  (shell-command "make clean && bear make")
+  (message "compile_commands.json created by bear make"))
 
-(defun wen-ccls-create-compile-json-ninja (dir))
+(defun wen-ccls-create-compile-json-ninja (dir)
+  (shell-command "ninja -C build -t compdb cxx cc > compile_commands.json")
+  (message "compile_commands.json created by ninja"))
 
 (defun wen-ccls-create-or-update-compile-json (bsystem)
   "Set build system for BSYSTEM."
@@ -42,7 +41,9 @@
                                                                "ninja: top of source tree:" default-directory)))
         ))
 
-(defun wen-ccls-create-or-update-ccls ())
+(defun wen-ccls-create-or-update-ccls ()
+  (shell-command "cp ~/.emacs.d/templates/ccls ./.ccls")
+  (message "ccls created from templates"))
 
 (provide 'module-c)
 

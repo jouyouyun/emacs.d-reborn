@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-lsp lsp-mode lsp-ui))
+(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -100,6 +100,16 @@
  '(("gopls.completeUnimported" t t)
    ("gopls.staticcheck" t t)))
 
+
+;; ccls
+(use-package ccls
+  :ensure t
+  :config
+  (setq ccls-executable "ccls")
+  (setq lsp-prefer-flymake nil)
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (provide 'module-company)
 
