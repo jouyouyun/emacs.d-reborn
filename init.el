@@ -86,24 +86,12 @@
     (defun enriched-decode-display-prop (start end &optional param)
       (list start end))))
 
+;; Disable 'C-z'
+;; 'C-s' resume from 'C-z'
+(global-unset-key (kbd "C-z"))
+
 (wen-eval-after-init
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'wen-tip-of-the-day))
 
 (provide 'init)
-
-;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-	(highlight-parentheses ox-mediawiki ox-gfm htmlize go-mode zop-to-char zenburn-theme whole-line-or-region which-key volatile-highlights use-package undo-tree super-save smartrep smartparens seethru popup-kill-ring operate-on-number multiple-cursors multi-term lsp-ivy guru-mode gitignore-mode gitconfig-mode git-timemachine gist expand-region exec-path-from-shell editorconfig easy-kill diminish diff-hl crux counsel-tramp counsel-projectile beacon async anzu all-the-icons-ivy ace-window))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

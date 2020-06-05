@@ -67,7 +67,8 @@
   (define-key counsel-gtags-mode-map (kbd "M-t") 'counsel-gtags-find-definition)
   (define-key counsel-gtags-mode-map (kbd "M-r") 'counsel-gtags-find-reference)
   (define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
-  (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-pop-stack))
+  ;; (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-pop-stack) ;; replace with xref-pop-maker-stack
+  )
 
 (provide 'core-ivy)
 
