@@ -60,6 +60,7 @@
     htmlize
     ox-gfm
     ox-mediawiki
+    org-preview-html
     expand-region
     highlight-parentheses
     zop-to-char)
