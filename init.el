@@ -34,6 +34,9 @@
 (defvar config-modules-file (expand-file-name "loaded-modules.el" config-personal-dir)
   "This file contains a list of optional modules will be loaded.")
 
+;; config changes made through the customize UI will be stored here
+(setq custom-file (expand-file-name "custom.el" config-personal-dir))
+
 (unless (file-exists-p config-savefile-dir)
   (make-directory config-savefile-dir))
 
@@ -93,5 +96,3 @@
 (wen-eval-after-init
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'wen-tip-of-the-day))
-
-(provide 'init)
