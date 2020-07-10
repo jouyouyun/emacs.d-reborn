@@ -10,8 +10,8 @@
 
 (defun wen-c-common-defaults ()
   (setq c-default-style "linux"
-        c-basic-offset 4
-        tab-width 4
+        c-basic-offset 8
+        tab-width 8
         indent-tabs-mode t)
   (c-set-offset 'substatement-open 1))
 

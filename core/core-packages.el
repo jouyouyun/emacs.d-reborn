@@ -30,6 +30,7 @@
   '(epl
     use-package
     ace-window
+    ag
     avy
     anzu
     guru-mode ;; disables some common keybindings and suggests the use of the established Emacs alternatives instead.
