@@ -16,7 +16,7 @@
   (c-set-offset 'substatement-open 1))
 
 (add-hook 'c-mode-common-hook 'wen-c-common-defaults)
-;; (add-hook 'c++-mode-hook 'wen-c-common-defaults)
+(add-hook 'c++-mode-hook 'wen-c-common-defaults)
 
 (defun wen-ccls-create-compile-json-cmake (dir)
   (shell-command "cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES && ln -s Debug/compile_commands.json .")
@@ -30,20 +30,26 @@
   (shell-command "ninja -C build -t compdb cxx cc > compile_commands.json")
   (message "compile_commands.json created by ninja"))
 
-(defun wen-ccls-create-or-update-compile-json (bsystem)
+(defun wen-ccls-create-or-update-compile-json (build-type)
   "Set build system for BSYSTEM."
-  (interactive "bBuild system? [C]cmake, [M]makefile, [N]ninja:")
-  (cond ((eq bsystem "C") (wen-ccls-create-compile-json-cmake (read-directory-name
+  (interactive "sbuild type [C]cmake, [M]makefile, [N]ninja:")
+  (message "Build type: %s" build-type)
+  (cond ((string= build-type "C") (wen-ccls-create-compile-json-cmake (read-directory-name
                                                                "cmake: top of source tree:" default-directory)))
-        ((eq bsystem "M") (wen-ccls-create-compile-json-makefile (read-directory-name
+        ((string= build-type "M") (wen-ccls-create-compile-json-makefile (read-directory-name
                                                                   "makefile: top of source tree:" default-directory)))
-        ((eq bsystem "N") (wen-ccls-create-compile-json-ninja (read-directory-name
+        ((string= build-type "N") (wen-ccls-create-compile-json-ninja (read-directory-name
                                                                "ninja: top of source tree:" default-directory)))
         ))
 
-(defun wen-ccls-create-or-update-ccls ()
-  (shell-command "cp ~/.emacs.d/templates/ccls ./.ccls")
+(defun wen-ccls-copy-ccls (dir)
+  (shell-command "cp -f ~/.emacs.d/templates/ccls ./.ccls")
   (message "ccls created from templates"))
+
+(defun wen-ccls-create-or-update-ccls ()
+  (interactive)
+  (wen-ccls-copy-ccls (read-directory-name
+                       "ccls: top of source tree:" default-directory)))
 
 (provide 'module-c)
 
