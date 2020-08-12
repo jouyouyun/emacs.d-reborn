@@ -1,0 +1,41 @@
+%% The list of derived (unpacked) files belonging to the distribution
+%% and covered by LPPL is defined by the unpacking scripts (with
+%% extension .ins) which are part of the distribution.
+%%
+%% Install:
+%% sudo ln -svf $PWD/cnconfig.sty /usr/share/texmf-dist/tex/latex/base/cnconfig.sty
+%% sudo texhash /usr/share/texmf-dist
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{cnconfig}
+   [2020/08/10 v0.1 Chinese configuration file]
+\usepackage{geometry}
+%设置页边距和word默认值相同
+\geometry{left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm}
+%每一段开头缩进两个汉字字符，需要使用indentfirst宏包，并且使用\indent
+%命令
+\usepackage{indentfirst}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[round]{natbib} %参考文献应用格式
+\setCJKmainfont{Noto Sans CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+\setlength{\parindent}{2em}%设置缩进2个字符
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,                % 别问为什么，加上这个
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+%%
+%% End of file `cnconfig.sty'.

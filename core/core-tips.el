@@ -35,6 +35,7 @@
     "Press <s-.> or <C-c j> to jump to the start of a word in any visible window."
     "Press <f11> to toggle fullscreen mode."
     "Press <f12> to toggle the menu bar."
+    "Press <C-c p h> to navigate a project in Helm."
     "Explore the Tools->Wen menu to find out about some of Wen extensions to Emacs."
     "Access the official Emacs manual by pressing <C-h r>."))
 

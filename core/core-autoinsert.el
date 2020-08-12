@@ -14,6 +14,10 @@
      '(
        "Short description: "
        "#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil\n"
+       "#+AUTHOR: jouyouyun\n"
+       "#+EMAIL: yanbowen717@gmail.com\n"
+       "#+LATEX_HEADER: \\usepackage{cnconfig}\n"
+       "#+LaTeX_CLASS_OPTIONS: [a4paper,12pt]\n"
        "#+TITLE: Foo\n")))
 
 ;; C++
