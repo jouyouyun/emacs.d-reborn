@@ -1,0 +1,15 @@
+#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil
+#+AUTHOR: jouyouyun
+#+EMAIL: yanbowen717@gmail.com
+#+LATEX_HEADER: \usepackage{cnconfig}
+#+LaTeX_CLASS_OPTIONS: [a4paper,12pt]
+#+TITLE: Ivy Multi Editor Mode
+
+=Ivy Ag= 搜索后的 =Multi-Editor= 模式不像 =helm-ag= 那么方便，需要按照以下步骤执行：
+
++ 执行 =counsel-ag(C-c k)= 搜索需要替换的字符串
++ 然后搜索结果里按下 =C-c C-o (ivy-occur)= 来打开这个 =buffer=
++ 切换到这个 =buffer= 后按下 =C-x C-q (ivy-wgrep-change-to-wgrep-mode)= 来修改
++ 修改完成后，使用 =C-X C-s= 来提交修改，使用 =C-c C-k= 取消修改
+
+使用前需要安装 =wgrep=

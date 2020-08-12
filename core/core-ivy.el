@@ -7,7 +7,9 @@
 ;; This file sets up ivy, swiper and counsel.
 
 ;;; Code:
-(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy counsel-gtags))
+(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy counsel-gtags wgrep))
+
+;; wgrep for ivy multi-editor
 
 (require 'ivy)
 (ivy-mode 1)
