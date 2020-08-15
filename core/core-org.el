@@ -71,6 +71,141 @@
 (setq flymd-browser-function 'my-flymd-browser-function)
 (setq flymd-output-directory "/tmp")
 
+
+;; agenda
+(global-set-key (kbd "C-c c")   'org-capture)
+(setq org-agenda-files '("~/Documents/Notes/"))
+;; 定义 agenda 文件的位置
+(setq org-capture-templates
+      `(("w" "Task [work]" entry (file "~/Documents/Notes/work_task.org")
+         "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
+        ("p" "Task [person]" entry (file "~/Documents/Notes/person_task.org")
+         "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
+        ("n" "Note" entry (file "~/Documents/Notes/note.org")
+         "* %? :NOTE:\nCaptured %<%Y-%m-%d %H:%M>\n")))
+
+;; 设置移动到的目标文件列表为 agenda-files
+;; See link: https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps nil)
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+
+;; From: http://0x100.club/wiki_emacs/gtd.html
+(defun wen-org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook 'wen-org-summary-todo)
+
+(setq org-todo-keywords
+      '((type "BUG(B!)" "|" "FIXED(F!)" "FEAT(N!)")
+        (sequence "TODO(t!)" "DOING(g!)" "|" "DONE(d!)" "BLOCKED(b!)" "REVIEW(r!)" "CANCELED(c @/!)")
+        ))
+
+;; 设置关键字的字体颜色
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("DOING" :foreground "yellow" :weight bold)
+              ("BLOCKED" :foreground "DarkOrange" :weight bold)
+              ("REVIEW" :foreground "orange" :weight bold)
+              ("CANCELED" :foreground "gray" :weight bold)
+              ("BUG" :foreground "MediumBlue" :weight bold)
+              ("FIXED" :foreground "LightGreen" :weight bold)
+              ("FEAT" :foreground "azure" :weight bold)
+              )))
+;; Then each time you turn an entry from a TODO (not-done) state into any of the DONE
+;; states, a line ‘CLOSED: [timestamp]’ will be inserted just after the headline.
+(setq org-log-done 'time)
+
+;; Change task state to STARTED when clocking in
+(setq org-clock-in-switch-to-state "DOING")
+
+(setq org-clock-out-switch-to-state "DONE")
+
+;; http://linzhichu.github.io/computers/2018/02/28/org-agenda
+(setq org-agenda-custom-commands
+      (quote (("C" "Simple agenda view"
+               ((tags "PRIORITY=\"A\""
+                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                       (org-agenda-overriding-header "High-priority unfinished tasks:")))
+                (agenda "")
+                (tags "REFILE"
+                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                       (org-agenda-overriding-header "Tasks to Refile")
+                       (org-tags-match-list-sublevels nil)))
+                (alltodo ""
+                         ((org-agenda-skip-function
+                           '(org-agenda-skip-entry-if 'scheduled))
+                          (org-agenda-overriding-header "Global list of Un-scheduled tasks:")
+                          ))))
+
+              ("N" "Notes" tags "NOTE"
+               ((org-agenda-overriding-header "Notes")
+                (org-tags-match-list-sublevels t)))
+              )))
+
+;; agenda 里面时间块彩色显示
+;; From: https://www.lijigang.com/blog/2018/08/08/%E7%A5%9E%E5%99%A8-org-mode/
+;; From: https://emacs-china.org/t/org-agenda/8679/3
+(defun ljg/org-agenda-time-grid-spacing ()
+  "Set different line spacing w.r.t. time duration."
+  (save-excursion
+    (let* ((background (alist-get 'background-mode (frame-parameters)))
+           (background-dark-p (string= background "dark"))
+           (colors (list "#1ABC9C" "#2ECC71" "#3498DB" "#9966ff"))
+           pos
+           duration)
+      (nconc colors colors)
+      (goto-char (point-min))
+      (while (setq pos (next-single-property-change (point) 'duration))
+        (goto-char pos)
+        (when (and (not (equal pos (point-at-eol)))
+                   (setq duration (org-get-at-bol 'duration)))
+          (let ((line-height (if (< duration 30) 1.0 (+ 0.5 (/ duration 60))))
+                (ov (make-overlay (point-at-bol) (1+ (point-at-eol)))))
+            (overlay-put ov 'face `(:background ,(car colors)
+                                                :foreground
+                                                ,(if background-dark-p "black" "white")))
+            (setq colors (cdr colors))
+            (overlay-put ov 'line-height line-height)
+            (overlay-put ov 'line-spacing (1- line-height))))))))
+
+(add-hook 'org-agenda-finalize-hook #'ljg/org-agenda-time-grid-spacing)
+
+
+;; 设置生日
+;; In order to include entries from the Emacs diary into Org mode's agenda
+
+(setq org-agenda-include-diary t
+   diary-file (locate-user-emacs-file "~/Documents/Notes/diary.org")
+   org-agenda-diary-file 'diary-file)
+
+;; diary for chinese birthday
+;; https://emacs-china.org/t/topic/2119/14
+(defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
+  (if year
+      (let* ((d-date (diary-make-date lunar-month lunar-day year))
+             (a-date (calendar-absolute-from-gregorian d-date))
+             (c-date (calendar-chinese-from-absolute a-date))
+             (cycle (car c-date))
+             (yy (cadr c-date))
+             (y (+ (* 100 cycle) yy)))
+        (diary-chinese-anniversary lunar-month lunar-day y mark))
+    (diary-chinese-anniversary lunar-month lunar-day year mark)))
+
+;; 中国节假日
+(require 'cal-china-x)
+(setq mark-holidays-in-calendar t)
+(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+(setq cal-china-x-general-holidays '((holiday-lunar 1 15 "元宵节")))
+(setq calendar-holidays
+   (append cal-china-x-important-holidays
+           cal-china-x-general-holidays
+           ))
+
 (provide 'core-org)
 
 ;;; core-org.el ends here

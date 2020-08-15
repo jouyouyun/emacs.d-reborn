@@ -64,6 +64,7 @@
     org-preview-html
     expand-region
     highlight-parentheses
+    cal-china-x
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 
