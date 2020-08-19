@@ -13,7 +13,8 @@
   '(define-auto-insert '("\\.org\\'" . "Org-mode skeleton")
      '(
        "Short description: "
-       "#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil\n"
+       "# % Options Settings: https://orgmode.org/manual/Export-Settings.html\n"
+       "#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil email:t p:t prop:t tags:t tasks:t todo:t\n"
        "#+LATEX_CLASS: article\n"
        "#+LaTeX_CLASS_OPTIONS: [a4paper,12pt]\n"
        "#+LATEX_HEADER: \\usepackage{booktabs}\n"
@@ -24,6 +25,7 @@
        "# % hyperrefs\n"
        "#+LaTeX_HEADER: \\usepackage{hyperref}\n"
        "# % ----------------- Code blocks ----------------\n"
+       "# % Dependencies: pip install pygments\n"
        "# % nice source code formatting\n"
        "#+LaTeX_HEADER: \\usepackage[utf8]{inputenc}\n"
        "#+LaTeX_HEADER: \\usepackage{xcolor}\n"
