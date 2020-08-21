@@ -29,6 +29,15 @@
 
 ;;; Code:
 
+
+;; Fix '<s Tab' not work
+;; From: https://emacs.stackexchange.com/questions/46988/why-do-easy-templates-e-g-s-tab-in-org-9-2-not-work
+;; The new mechanism is called structured template.
+;; The command org-insert-structure-template bound to C-c C-,
+;; gives you a list of #+begin_-#+end_ pairs that narrows down while you type and you can use completion.
+;; But, you can also get the old easy template system back
+(require 'org-tempo)
+
 (add-to-list 'auto-mode-alist '("\\.org\\’" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
