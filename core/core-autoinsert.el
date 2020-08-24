@@ -14,11 +14,12 @@
      '(
        "Short description: "
        "# % Options Settings: https://orgmode.org/manual/Export-Settings.html\n"
-       "#+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil email:t p:t prop:t tags:t tasks:t todo:t\n"
+       "#+OPTIONS: timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n"
        "#+LATEX_CLASS: article\n"
        "#+LaTeX_CLASS_OPTIONS: [a4paper,12pt]\n"
        "#+LATEX_HEADER: \\usepackage{booktabs}\n"
        "# % to include pdf/eps/png files\n"
+       "#+LATEX_HEADER: \\usepackage{indentfirst}\n"
        "#+LATEX_HEADER: \\usepackage{graphicx}\n"
        "# % useful to add 'todo' markers\n"
        "#+LaTeX_HEADER: \\usepackage{todonotes}\n"
