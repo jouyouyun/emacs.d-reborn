@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls))
+(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -110,6 +110,27 @@
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
+
+;; LaTex
+;; Depends: texlab
+(use-package lsp-latex
+  :ensure t
+  :config
+  (setq lsp-latex-texlab-executable "xelatex")
+  (setq lsp-latex–build-args '("-shell-escape" "%f")))
+;; "texlab" must be located at a directory contained in `exec-path'.
+;; If you want to put "texlab" somewhere else,
+;; you can specify the path to "texlab" as follows:
+;; (setq lsp-latex-texlab-executable "/path/to/texlab")
+(with-eval-after-load "tex-mode"
+  (add-hook 'tex-mode-hook 'lsp)
+  (add-hook 'latex-mode-hook 'lsp))
+;; For YaTeX
+(with-eval-after-load "yatex"
+  (add-hook 'yatex-mode-hook 'lsp))
+;; For bibtex
+(with-eval-after-load "bibtex"
+  (add-hook 'bibtex-mode-hook 'lsp))
 
 (provide 'module-company)
 
