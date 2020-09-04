@@ -86,7 +86,7 @@
 (setq org-agenda-files '("~/Documents/Notes/"))
 ;; 定义 agenda 文件的位置
 (setq org-capture-templates
-      `(("w" "Task [work]" entry (file "~/Documents/Notes/work_task.org")
+      `(("w" "Task [work]" entry (file "~/Documents/Notes/weekly.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
         ("p" "Task [person]" entry (file "~/Documents/Notes/person_task.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
