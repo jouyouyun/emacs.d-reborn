@@ -8,13 +8,6 @@
 
 ;;; Code:
 
-(wen-require-package 'multi-term)
-(wen-require-package 'vterm)
-
-;; Depends: libtool-bin
-(use-package vterm
-			 :ensure t)
-
 (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
 (global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1)))
 
@@ -31,52 +24,37 @@
 (global-set-key (kbd "C-x M-m") 'shell)
 
 
-;; for multi-term
-(global-set-key (kbd "C-c M-t") 'multi-term)
-(setq multi-term-program "/bin/zsh"
-	  ;; TERM is restored to xterm-256-color after that.
-	  term-term-name "xterm-256color"
-	  ;; background: black
-	  term-default-bg-color "#000000"
-	  ;; foreground: yellow
-	  term-default-fg-color "#dddd00")
+(wen-require-package 'vterm)
+(wen-require-package 'multi-vterm)
 
-;; update current directory
-(defadvice term-send-input (after update-current-directory)
-  "Update the current directory."
-  (let* ((pid (process-id (get-buffer-process (current-buffer))))
-         (cwd (file-truename (format "/proc/%d/cwd" pid))))
-    (cd cwd)))
-(defadvice term-send-raw (after update-current-directory)
-  "Update the current directory."
-  (let* ((pid (process-id (get-buffer-process (current-buffer))))
-         (cwd (file-truename (format "/proc/%d/cwd" pid))))
-    (cd cwd)))
+(use-package vterm
+  :ensure t)
+(use-package multi-vterm
+  :ensure t)
 
-(eval-after-load "term"
-  `(progn
-     (ad-activate 'term-send-raw)
-     (ad-activate 'term-send-input)
-     ;; no limit buffer length
-     (setq show-trailing-whitespace nil)
-     (setq term-bind-key-alist
-           (list (cons "C-c C-c" 'term-interrupt-subjob)
-                 ;; send 'ESC' to terminal
-                 (cons "C-c M-e" 'term-send-esc)
-                 ;; jump terminals
-                 (cons "C-c M-[" 'multi-term-prev)
-                 (cons "C-c M-]" 'multi-term-next)
-                 (cons "C-p" 'previous-line)
-                 (cons "C-n" 'next-line)
-                 (cons "M-f" 'term-send-forward-word)
-                 (cons "M-b" 'term-send-backward-word)
-                 (cons "C-c C-j" 'term-line-mode)
-                 (cons "C-c C-k" 'term-char-mode)
-                 (cons "M-DEL" 'term-send-backward-kill-word)
-                 (cons "M-d" 'term-send-forward-kill-word)
-                 (cons "C-r" 'term-send-reverse-search-history)))
-     ;; paste
-     (define-key term-raw-map (kbd "C-y") 'term-paste)))
+;; vterm configs
+;; depends: libtool-bin
+;; set zsh to enable directory tracking
+(global-set-key (kbd "C-c M-t") 'multi-vterm)
+(global-set-key (kbd "C-c M-[") 'multi-vterm-prev)
+(global-set-key (kbd "C-c M-]") 'multi-vterm-next)
+(global-set-key (kbd "C-c M-p") 'multi-vterm-projectile)
+(global-set-key (kbd "C-c C-j") 'vterm-copy-mode)
+(global-set-key (kbd "C-c C-k") 'vterm-copy-mode-done)
+;; <C-backspace> doesn't kill previous word
+(define-key vterm-mode-map (kbd "<C-backspace>")
+  (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+;; counsel-yank-pop doesn't work
+(defun vterm-counsel-yank-pop-action (orig-fun &rest args)
+  (if (equal major-mode 'vterm-mode)
+      (let ((inhibit-read-only t)
+            (yank-undo-function (lambda (_start _end) (vterm-undo))))
+        (cl-letf (((symbol-function 'insert-for-yank)
+                   (lambda (str) (vterm-send-string str t))))
+          (apply orig-fun args)))
+    (apply orig-fun args)))
+
+(advice-add 'counsel-yank-pop-action :around #'vterm-counsel-yank-pop-action)
 
 (provide 'core-terminal)
 
