@@ -11,18 +11,8 @@
 (wen-require-package 'pyim)
 
 (use-package pyim
-  :ensure nil
+  :ensure t
   :config
-  ;; 激活 basedict 拼音词库
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
-
-  ;; 五笔用户使用 wbdict 词库
-  ;; (use-package pyim-wbdict
-  ;;   :ensure nil
-  ;;   :config (pyim-wbdict-gbk-enable))
-
   (setq default-input-method "pyim")
   (global-set-key (kbd "C-\\") 'toggle-input-method)
   
