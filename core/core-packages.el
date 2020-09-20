@@ -65,6 +65,7 @@
     expand-region
     highlight-parentheses
     cal-china-x
+    pdf-tools
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 
@@ -118,8 +119,8 @@
     (wen-recompile-init)
     (message "Update finished. Restart Emacs to complete the process.")))
 
-(defun wen-update-packages ()
-  "Update Wen's packages."
+(defun wen-update-packages (&optional arg)
+  "Update Wen's packages. his includes package installed via `wen-require-package'."
   (interactive "P")
   (when (y-or-n-p "Do you want to update packages? ")
     (if arg
