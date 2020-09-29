@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex))
+(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex go-snippets))
 
 ;; Enable 'company-fuzzy' if needed
 

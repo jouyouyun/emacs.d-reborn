@@ -66,6 +66,7 @@
     highlight-parentheses
     cal-china-x
     pdf-tools
+    yasnippet
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 

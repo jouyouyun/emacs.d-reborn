@@ -93,6 +93,9 @@
 ;; 'C-s' resume from 'C-z'
 (global-unset-key (kbd "C-z"))
 
+;; enable 'pdf-tools'
+(pdf-tools-install)
+
 (wen-eval-after-init
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'wen-tip-of-the-day))
