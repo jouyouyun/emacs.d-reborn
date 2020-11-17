@@ -2,3 +2,4 @@
 (require 'module-gtags)
 (require 'module-company)
 (require 'module-c)
+(require 'module-graphviz)
