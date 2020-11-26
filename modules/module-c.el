@@ -19,15 +19,18 @@
 (add-hook 'c++-mode-hook 'wen-c-common-defaults)
 
 (defun wen-ccls-create-compile-json-cmake (dir)
-  (shell-command "cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES && ln -s Debug/compile_commands.json .")
+  (let ((default-directory dir))
+    (shell-command "cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES || ln -s Debug/compile_commands.json ./"))
   (message "compile_commands.json created by cmake"))
 
 (defun wen-ccls-create-compile-json-makefile (dir)
-  (shell-command "make clean && bear make")
+  (let ((default-directory dir))
+    (shell-command "make clean && bear make"))
   (message "compile_commands.json created by bear make"))
 
 (defun wen-ccls-create-compile-json-ninja (dir)
-  (shell-command "ninja -C build -t compdb cxx cc > compile_commands.json")
+  (let ((default-directory dir))
+    (shell-command "ninja -C build -t compdb cxx cc > compile_commands.json"))
   (message "compile_commands.json created by ninja"))
 
 (defun wen-ccls-create-or-update-compile-json (build-type)
@@ -43,7 +46,8 @@
         ))
 
 (defun wen-ccls-copy-ccls (dir)
-  (shell-command "cp -f ~/.emacs.d/templates/ccls ./.ccls")
+  (let ((default-directory dir))
+    (shell-command "cp -f ~/.emacs.d/templates/ccls .ccls"))
   (message "ccls created from templates"))
 
 (defun wen-ccls-create-or-update-ccls ()
