@@ -115,6 +115,19 @@
 --------
 -------
 
+** Install
+
+*** 克隆仓库
+
+=git clone https://github.com/jouyouyun/emacs.d-reborn ~/.emacs.d=
+
+*** 复制模板配置文件
+
+把 =loaded-modules-simple.el= 复制到 =personal/= 下，并重命名为 =loaded-modules.el= 。
+
+--------
+-------
+
 ** init
 
 =init.el= 文件是 =emacs= 启动后入口，故在这个文件中实现配置文件的模块化加载， 模块目录的说明如下：
