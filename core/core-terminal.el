@@ -34,7 +34,7 @@
 
 ;; vterm configs
 ;; depends: libtool-bin
-;; set zsh to enable directory tracking
+;; set zsh to enable directory tracking, see: https://github.com/akermu/emacs-libvterm/#directory-tracking-and-prompt-tracking
 (global-set-key (kbd "C-c M-t") 'multi-vterm)
 (global-set-key (kbd "C-c M-[") 'multi-vterm-prev)
 (global-set-key (kbd "C-c M-]") 'multi-vterm-next)
