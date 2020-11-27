@@ -67,6 +67,11 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'string
   :group 'wen)
 
+(defcustom wen-terminal "ansi-term"
+  "The default terminal, avaliables: ansi-term, vterm."
+  :type 'string
+  :group 'wen)
+
 (provide 'core-custom)
 
 ;;; core-custom.el ends here
