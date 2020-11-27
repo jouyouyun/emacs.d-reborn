@@ -16,7 +16,7 @@
 
   拼写检查
 
-+ =locate=
++ =mlocate=
 
   =counsel-locate= 使用
 
@@ -26,91 +26,35 @@
 
 + =git=
 
+  =magit= 使用
+
 + =golang=
 
-  - =go get -u -v github.com/klauspost/asmfmt/cmd/asmfmt=
-  - =go get -u -v github.com/go-delve/delve/cmd/dlv=
-  - =go get -u -v github.com/kisielk/errcheck=
-  - =go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct=
-  - =go get -u -v github.com/mdempsky/gocode=
-  - =go get -u -v github.com/stamblerre/gocode=
-
-    gocode with  go mod supported
-
-  - =go get -u -v github.com/rogpeppe/godef=
-  - =go get -u -v github.com/zmb3/gogetdoc=
-  - =go get -u -v golang.org/x/tools/cmd/goimports=
-  - =go get -u -v golang.org/x/lint/golint=
-  - =go get -u -v golang.org/x/tools/gopls@latest=
-  - =go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint=
-  - =go get -u -v github.com/fatih/gomodifytags=
-  - =go get -u -v golang.org/x/tools/cmd/gorename=
-  - =go get -u -v github.com/jstemmer/gotags=
-  - =go get -u -v golang.org/x/tools/cmd/guru=
-  - =go get -u -v github.com/josharian/impl=
-  - =go get -u -v honnef.co/go/tools/cmd/keyify=
-  - =go get -u -v github.com/fatih/motion=
-  - =go get -u -v github.com/koron/iferr=
+  =go= 代码支持，需要执行 =bash ./misc/golang_install_binaries.sh= 安装依赖的命令
 
 + =c/c++=
 
-  - =bear=
+  使用 =ccls= 提供代码补全功能，配置方法见 [[./docs/ccls-simple-usage.org][ccls 配置使用]]
 
-    =Makefile= 的 =compile_commands.json= 生成工具
++ =global=
 
-  - =ccls=
+  默认使用 =gtags= 进行代码阅读
 
-    #+BEGIN_SRC shell
-    # dependencies: cmake, clang, gcc, make, clang+llvm headers and libraries
-    sudo apt-get install cmake make gcc clang libclang-dev llvm-dev rapidjson-dev
-    git clone --depth=1 --recursive https://github.com/MaskRay/ccls
-    cd ccls
-    mkdir build && cd build
-    cmake ../  -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON
-    cmake --build Release -j 32
-    sudo cp Release/ccls /usr/local/bin/
-    #+END_SRC
++ =libtool-bin=
 
-    =ccls= 在使用时需要在项目的根目录中指定以下文件：
+  =vterm= 依赖
 
-      - =compile_commands.json=
++ =texlab=
 
-      这个文件通常是自动生成，根据不同的编译系统命令不同，分别如下：
+  =LaTex= 代码补全
 
-        + =camke=
++ =pip install pygments=
 
-        #+BEGIN_SRC shell
-        cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
-        ln -s Debug/compile_commands.json .
-        #+END_SRC
+  =LaTex= 代码高亮
 
-        + =Makefile=
++ =graphviz=
 
-        首先安装 =bear= 工具，用这个工具生成，命令如下：
-
-        #+BEGIN_SRC shell
-        bear make
-        #+END_SRC
-
-        + =ninja=
-
-        #+BEGIN_SRC shell
-        # Format: ninja -t compdb rule_names... > compile_commands.json
-        ninja -C out/Release -t compdb cxx cc > compile_commands.json
-        #+END_SRC
-
-      - =.ccls=
-
-        =.ccls= 中使用 =-I, -D= 等指定头文件目录和宏定义，中间不能包含空格。示例如下：
-
-        #+BEGIN_SRC shell
-        %compile_commands.json
-        %c -std=c11
-        %cpp -std=c++14
-        %c %cpp -pthread
-        #+END_SRC
-
-    更多使用方法参见： [[https://github.com/MaskRay/ccls/wiki/Project-Setup][Project Setup]] ，另外也整理了一下简单的用法，见 [[./docs/ccls-simple-usage.org][ccls 简单使用]] 。
+  =dot= 画图
 
 --------
 -------
@@ -124,6 +68,59 @@
 *** 复制模板配置文件
 
 把 =loaded-modules-simple.el= 复制到 =personal/= 下，并重命名为 =loaded-modules.el= 。
+
+*** 定制 custom.el
+
++ =wen-frontend=
+
+  默认使用 =ivy= ，如需使用 =helm= ，请添加以下内容：
+
+  #+begin_src elisp
+  (setq wen-frontend "helm")
+  #+end_src
+
++ =wen-terminal=
+
+  默认使用 =ansi-term= ，如需使用 =vterm= ，请添加以下内容：
+
+  #+begin_src elisp
+  (setq wen-frontend "vterm")
+  #+end_src
+
+  =Directory Tracking= 功能需要 =SHELL= 配合， =zsh= 需要添加的配置如下：
+
+  *ansi-term*
+
+  #+begin_src elisp
+  if [ -n "$INSIDE_EMACS" ]; then
+  	chpwd() { print -P "\033AnSiTc %d" }
+  	print -P "\033AnSiTu %n"
+  	print -P "\033AnSiTc %d"
+  fi
+  #+end_src
+
+  *vterm*
+
+  #+begin_src elisp
+  # https://github.com/akermu/emacs-libvterm
+  vterm_printf(){
+      if [ -n "$TMUX" ]; then
+          # Tell tmux to pass the escape sequences through
+          # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+          printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+      elif [ "${TERM%%-*}" = "screen" ]; then
+          # GNU screen (screen, screen-256color, screen-256color-bce)
+          printf "\eP\e]%s\007\e\\" "$1"
+      else
+          printf "\e]%s\e\\" "$1"
+      fi
+  }
+  vterm_prompt_end() {
+      vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+  }
+  setopt PROMPT_SUBST
+  PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+  #+end_src
 
 --------
 -------

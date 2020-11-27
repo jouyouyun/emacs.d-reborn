@@ -1,4 +1,58 @@
 #+OPTIONS: toc:nil num:nil timestamp:nil ^:nil <:nil
-#+TITLE: ccls 示例
+#+TITLE: ccls 使用
 
-这里通过 =makefile= 演示如何使用 =ccls= ，详细如下：
+** Build
+
+#+BEGIN_SRC shell
+# dependencies: cmake, clang, gcc, make, clang+llvm headers and libraries
+sudo apt-get install cmake make gcc clang libclang-dev llvm-dev rapidjson-dev
+git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+cd ccls
+mkdir build && cd build
+cmake ../  -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON
+cmake --build Release -j 32
+sudo cp Release/ccls /usr/local/bin/
+#+END_SRC
+
+** Usage
+
+=ccls= 在使用时需要在项目的根目录中指定以下文件：
+
+  - =compile_commands.json=
+
+  这个文件通常是自动生成，根据不同的编译系统命令不同，分别如下：
+
+    + =camke=
+
+    #+BEGIN_SRC shell
+    cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+    ln -s Debug/compile_commands.json .
+    #+END_SRC
+
+    + =Makefile=
+
+    首先安装 =bear= 工具，用这个工具生成，命令如下：
+
+    #+BEGIN_SRC shell
+    bear make
+    #+END_SRC
+
+    + =ninja=
+
+    #+BEGIN_SRC shell
+    # Format: ninja -t compdb rule_names... > compile_commands.json
+    ninja -C out/Release -t compdb cxx cc > compile_commands.json
+    #+END_SRC
+
+  - =.ccls=
+
+    =.ccls= 中使用 =-I, -D= 等指定头文件目录和宏定义，中间不能包含空格。示例如下：
+
+    #+BEGIN_SRC shell
+    %compile_commands.json
+    %c -std=c11
+    %cpp -std=c++14
+    %c %cpp -pthread
+    #+END_SRC
+
+更多使用方法参见： [[https://github.com/MaskRay/ccls/wiki/Project-Setup][Project Setup]] ，另外也整理了一下简单的用法，见 [[./docs/ccls-simple-usage.org][ccls 简单使用]] 。
