@@ -17,7 +17,6 @@
 ;;        print -P "\033AnSiTc %d"
 ;;    fi
 ;; END
-(setq explicit-shell-file-name "/bin/zsh")
 (global-set-key (kbd "C-c M-t") 'ansi-term)
 
 ;; kill buffer automatically after terminal exit
@@ -30,12 +29,28 @@
         (if (string= event "finished\n")
             (kill-buffer ,buff))))))
 
-(add-hook 'term-exec-hook 'wen-term-exec-hook)
-
-;; By default, C-y calls term's own yank, which is different from Emacs's yank.
-;; So reset the keyboard shortcut.
 (eval-after-load "term"
-  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
+  `(progn
+     ;; no limit buffer length
+     (add-hook 'term-exec-hook 'wen-term-exec-hook)
+     (setq show-trailing-whitespace nil)
+     (setq term-bind-key-alist
+           (list (cons "C-c C-c" 'term-interrupt-subjob)
+                 ;; send 'ESC' to terminal
+				 (cons "C-c M-e" 'term-send-esc)
+                 (cons "C-p" 'previous-line)
+                 (cons "C-n" 'next-line)
+                 (cons "M-f" 'term-send-forward-word)
+                 (cons "M-b" 'term-send-backward-word)
+                 (cons "C-c C-j" 'term-line-mode)
+                 (cons "C-c C-k" 'term-char-mode)
+                 (cons "M-DEL" 'term-send-backward-kill-word)
+                 (cons "M-d" 'term-send-forward-kill-word)
+                 (cons "C-r" 'term-send-reverse-search-history)))
+     ;; By default, C-y calls term's own yank, which is different from Emacs's yank.
+     ;; So reset the keyboard shortcut.
+     (define-key term-raw-map (kbd "C-y") 'term-paste)))
+
 
 (provide 'core-ansi-term)
 
