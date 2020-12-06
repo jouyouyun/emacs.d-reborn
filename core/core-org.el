@@ -65,6 +65,22 @@
 
 (add-hook 'org-export-before-processing-hook 'wen-org-inline-css-hook)
 
+;; Codes Syntax Highlighting
+(require 'ox-latex)
+;(add-to-list 'org-latex-packages-alist '("" "listings"))
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "color"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode %f"
+        "xelatex -shell-escape -interaction nonstopmode %f"
+        "xelatex -shell-escape -interaction nonstopmode %f"))
+
+;; Insert LaTex '\newpage'
+(defun wen-org-latex-newpage ()
+  (interactive)
+  (insert "\n#+latex: \\newpage"))
+
 ;;; markdown
 (wen-require-package 'ox-gfm)
 (eval-after-load "org"
