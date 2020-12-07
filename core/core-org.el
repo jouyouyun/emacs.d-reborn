@@ -79,7 +79,7 @@
 ;; Insert LaTex '\newpage'
 (defun wen-org-latex-newpage ()
   (interactive)
-  (insert "\n#+latex: \\newpage"))
+  (insert "#+latex: \\newpage\n"))
 
 ;;; markdown
 (wen-require-package 'ox-gfm)

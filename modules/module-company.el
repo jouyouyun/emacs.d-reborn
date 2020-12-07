@@ -132,6 +132,16 @@
 (with-eval-after-load "bibtex"
   (add-hook 'bibtex-mode-hook 'lsp))
 
+;; python
+(wen-require-packages '(lsp-python-ms))
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp))))  ; or lsp-deferred
+
+
 (provide 'module-company)
 
 ;;; module-company.el ends here
