@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex go-snippets))
+(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex go-snippets treemacs lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -66,6 +66,8 @@
 (setq lsp-message-project-root-warning t)
 ;; we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
 (setq create-lockfiles nil)
+;; enable treemacs sync
+(lsp-treemacs-sync-mode 1)
 
 ;;; GoLang
 ;; Dependencies:
@@ -106,7 +108,7 @@
   :ensure t
   :config
   (setq ccls-executable "ccls")
-  (setq lsp-prefer-flymake nil)
+  ;; (setq lsp-prefer-flymake nil)
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
@@ -121,7 +123,7 @@
 ;; "texlab" must be located at a directory contained in `exec-path'.
 ;; If you want to put "texlab" somewhere else,
 ;; you can specify the path to "texlab" as follows:
-;; (setq lsp-latex-texlab-executable "/path/to/texlab")
+(setq lsp-latex-texlab-executable "/usr/local/bin/texlab")
 (with-eval-after-load "tex-mode"
   (add-hook 'tex-mode-hook 'lsp)
   (add-hook 'latex-mode-hook 'lsp))

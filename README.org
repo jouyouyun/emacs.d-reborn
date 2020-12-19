@@ -46,7 +46,7 @@
 
 + =texlab=
 
-  =LaTex= 代码补全
+  =LaTex= 代码补全，从 [[https://github.com/latex-lsp/texlab/releases]] 下载， *二进制文件必须放在 =/usr/local/bin/texlab=*
 
 + =pip install pygments=
 

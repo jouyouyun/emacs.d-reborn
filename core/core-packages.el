@@ -67,6 +67,7 @@
     cal-china-x
     pdf-tools
     yasnippet
+    flycheck
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 

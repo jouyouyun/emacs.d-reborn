@@ -57,7 +57,6 @@
 (require 'core-custom) ;; if custom some variable in personal, please load at the next line
 (require 'core-ui)
 (require 'core-project) ;; must load before core-frontend
-(require 'core-window)
 (require 'core-editor)
 (require 'core-env-path)
 (require 'core-org)
@@ -82,6 +81,7 @@
 ;; Must be loaded after 'custom.el'
 (require 'core-frontend)
 (require 'core-terminal)
+(require 'core-window)
 
 (message "Emacs is ready for %s..." current-user)
 

@@ -12,6 +12,9 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+(use-package flycheck
+  :init (global-flycheck-mode))
+
 ;; avy
 (require 'avy)
 (global-set-key (kbd "M-g c") 'avy-goto-char)

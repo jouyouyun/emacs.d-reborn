@@ -10,10 +10,8 @@
 (require 'ace-window)
 
 ;; Window switching. (C-x o goes to the next window)
-(global-set-key (kbd "C-x o") (lambda ()
-                                (interactive)
-                                (other-window -1))) ;; back one
 (global-set-key [remap other-window] 'ace-window)
+(global-set-key (kbd "C-x o") 'ace-window)
 
 ;; use shift + arrow keys to switch between visible buffers
 (require 'windmove)
