@@ -15,6 +15,9 @@
 (use-package flycheck
   :init (global-flycheck-mode))
 
+;; auto break line
+(global-visual-line-mode 1)
+
 ;; avy
 (require 'avy)
 (global-set-key (kbd "M-g c") 'avy-goto-char)
