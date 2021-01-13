@@ -54,7 +54,11 @@
 
 + =graphviz=
 
-  =dot= 画图
+  =dot/plantuml= 画图
+
++ =default-jdk=
+
+  =plantuml= 画图
 
 --------
 -------

@@ -3,3 +3,4 @@
 (require 'module-company)
 (require 'module-c)
 (require 'module-graphviz)
+(require 'module-plantuml)

@@ -33,6 +33,8 @@
   "Emacs automatically generated files, such as: recently, history etc.")
 (defvar config-modules-file (expand-file-name "loaded-modules.el" config-personal-dir)
   "This file contains a list of optional modules will be loaded.")
+(defvar config-misc-dir (expand-file-name "misc" config-dir)
+  "Emacs misc dir.")
 
 ;; config changes made through the customize UI will be stored here
 (setq custom-file (expand-file-name "custom.el" config-personal-dir))
