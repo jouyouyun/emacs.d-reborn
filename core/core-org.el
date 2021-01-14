@@ -44,6 +44,9 @@
 (global-set-key "\C-cb" 'org-switchb)
 (setq org-log-done t)
 
+;; Disable auto indent
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+
 (defun wen-org-inline-css-hook (exporter)
   "Insert custom inline css"
   (when (eq exporter 'html)

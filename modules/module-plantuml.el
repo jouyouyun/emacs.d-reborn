@@ -21,6 +21,7 @@
 
 ;; Sample jar configuration
 (setq plantuml-jar-path (expand-file-name "plantuml.jar" config-misc-dir))
+(setq org-plantuml-jar-path (expand-file-name "plantuml.jar" config-misc-dir))
 (setq plantuml-default-exec-mode 'jar)
 
 ;; server mode
