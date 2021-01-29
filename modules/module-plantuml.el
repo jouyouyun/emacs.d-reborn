@@ -13,6 +13,7 @@
 
 ;; Enable plantuml-mode for PlantUML files
 (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+(add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
 ;; Integration with org-mode
 (add-to-list
  'org-src-lang-modes '("plantuml" . plantuml))
