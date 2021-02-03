@@ -75,9 +75,9 @@
 (add-to-list 'org-latex-packages-alist '("" "color"))
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process
-      '("xelatex -shell-escape -interaction nonstopmode %f"
-        "xelatex -shell-escape -interaction nonstopmode %f"
-        "xelatex -shell-escape -interaction nonstopmode %f"))
+      '("lualatex -shell-escape -interaction nonstopmode %f"
+        "lualatex -shell-escape -interaction nonstopmode %f"
+        "lualatex -shell-escape -interaction nonstopmode %f"))
 
 ;; Insert LaTex '\newpage'
 (defun wen-org-latex-newpage ()

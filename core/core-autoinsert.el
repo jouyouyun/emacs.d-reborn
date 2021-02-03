@@ -111,7 +111,6 @@
        "# % ----------------- Code blocks ----------------\n"
        "# % Dependencies: pip install pygments\n"
        "# % nice source code formatting\n"
-       "#+LaTeX_HEADER: \\usepackage[utf8]{inputenc}\n"
        "#+LaTeX_HEADER: \\usepackage{xcolor}\n"
        "#+LaTeX_HEADER: \\definecolor{bg}{rgb}{0.98,0.98,0.98}\n"
        "#+LaTeX_HEADER: \\usepackage{minted}\n"
