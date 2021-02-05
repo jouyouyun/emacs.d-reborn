@@ -45,7 +45,9 @@
 (setq org-log-done t)
 
 ;; Disable auto indent
-(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+;; From: https://www.philnewton.net/blog/electric-indent-with-org-mode/
+(add-hook 'electric-indent-functions
+	  (lambda (x) (when (eq 'org-mode major-mode) 'no-indent)))
 
 (defun wen-org-inline-css-hook (exporter)
   "Insert custom inline css"
