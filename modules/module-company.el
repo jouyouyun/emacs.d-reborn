@@ -118,12 +118,16 @@
 (use-package lsp-latex
   :ensure t
   :config
-  (setq lsp-latex-texlab-executable "xelatex")
-  (setq lsp-latex–build-args '("-shell-escape" "%f")))
-;; "texlab" must be located at a directory contained in `exec-path'.
-;; If you want to put "texlab" somewhere else,
-;; you can specify the path to "texlab" as follows:
-(setq lsp-latex-texlab-executable "/usr/local/bin/texlab")
+  (setq lsp-latex-build-executable "xelatex")
+  ;; "texlab" must be located at a directory contained in `exec-path'.
+  ;; If you want to put "texlab" somewhere else,
+  ;; you can specify the path to "texlab" as follows:
+  (setq lsp-latex-texlab-executable "/usr/local/bin/texlab"))
+
+(add-hook 'latex-mode-hook
+          (lambda ()
+            (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "%f"))))
+
 (with-eval-after-load "tex-mode"
   (add-hook 'tex-mode-hook 'lsp)
   (add-hook 'latex-mode-hook 'lsp))
