@@ -9,7 +9,8 @@
 ;;; Code:
 
 ;; Depends: graphviz, default-jdk
-(wen-require-packages '(plantuml-mode flycheck-plantuml))
+;; (wen-require-packages '(plantuml-mode flycheck-plantuml))
+(wen-require-packages '(plantuml-mode))
 
 ;; Enable plantuml-mode for PlantUML files
 (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
@@ -29,9 +30,9 @@
 ;; (setq plantuml-default-exec-mode 'server)
 ;; (setq plantuml-server-url "https://www.plantuml.com/plantuml")
 
-(with-eval-after-load 'flycheck
-  (require 'flycheck-plantuml)
-  (flycheck-plantuml-setup))
+;; (with-eval-after-load 'flycheck
+;;   (require 'flycheck-plantuml)
+;;   (flycheck-plantuml-setup))
 
 
 (provide 'module-plantuml)
