@@ -77,9 +77,8 @@
 (add-to-list 'org-latex-packages-alist '("" "color"))
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process
-      '("lualatex -shell-escape -interaction nonstopmode %f"
-        "lualatex -shell-escape -interaction nonstopmode %f"
-        "lualatex -shell-escape -interaction nonstopmode %f"))
+      '("lualatex -shell-escape -interaction nonstopmode --output-directory=/tmp/ %f"
+        "lualatex -shell-escape -interaction nonstopmode --output-directory=/tmp/ %f"))
 
 ;; Insert LaTex '\newpage'
 (defun wen-org-latex-newpage ()
