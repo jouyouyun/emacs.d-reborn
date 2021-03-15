@@ -73,7 +73,7 @@
 
 (defun wen-packages-installed-p ()
   "Check if all packages in 'preloaded-packages' are installed."
-  (every #'package-installed-p preloaded-packages))
+  (cl-every #'package-installed-p preloaded-packages))
 
 (defun wen-require-package (package)
   "Install PACKAGE unless already installed."
@@ -86,7 +86,9 @@
   "Ensure PACKAGES are installed."
   (mapc #'wen-require-package packages))
 
-(define-obsolete-function-alias 'wen-ensure-module-deps 'wen-require-packages)
+;;; Fix byte compile error. The third argument WHEN is mandatory since https://github.com/emacs-mirror/emacs/commit/32c6732d16385f242b1109517f25e9aefd6caa5c
+;;; From https://github.com/emacs-lsp/lsp-mode/pull/2498
+(define-obsolete-function-alias 'wen-ensure-module-deps 'wen-require-packages "wen packages 1.1")
 
 (defun wen-install-packages ()
   "Install all packages in preloaded-packages."

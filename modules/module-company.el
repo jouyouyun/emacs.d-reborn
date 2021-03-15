@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-lsp lsp-mode lsp-ui ccls lsp-latex go-snippets treemacs lsp-treemacs))
+(wen-require-packages '(company lsp-mode lsp-ui ccls lsp-latex lsp-ivy go-snippets treemacs lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -33,12 +33,6 @@
   :ensure t
   :commands lsp-ui-mode)
 
-;; company-lsp integrates company mode completion with lsp-mode.
-;; completion-at-point also works out of the box but doesn't support snippets.
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
 (require 'lsp-ui)
 (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
 (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
@@ -56,8 +50,8 @@
 (setq lsp-ui-peek-always-show t)
 
 
-(require 'company-lsp)
 (require 'lsp-mode)
+(require 'lsp-ivy)
 
 ;; Configuration to fix LSP
 ;; we will got error "Wrong type argument: sequencep" from `eldoc-message' if `lsp-enable-eldoc' is non-nil
@@ -118,7 +112,7 @@
 (use-package lsp-latex
   :ensure t
   :config
-  (setq lsp-latex-build-executable "xelatex")
+  (setq lsp-latex-build-executable "lualatex")
   ;; "texlab" must be located at a directory contained in `exec-path'.
   ;; If you want to put "texlab" somewhere else,
   ;; you can specify the path to "texlab" as follows:
