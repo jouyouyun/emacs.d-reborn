@@ -120,7 +120,8 @@
 
 (add-hook 'latex-mode-hook
           (lambda ()
-            (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "--output-directory=/tmp/" "%f"))))
+            (setq lsp-latex-build-output-directory "/tmp/")
+            (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "%f"))))
 
 (with-eval-after-load "tex-mode"
   (add-hook 'tex-mode-hook 'lsp)
