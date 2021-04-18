@@ -98,7 +98,7 @@
 (global-unset-key (kbd "C-z"))
 
 ;; enable 'pdf-tools'
-(pdf-tools-install)
+;;(pdf-tools-install)
 
 (wen-eval-after-init
  ;; greet the use with some useful tip
