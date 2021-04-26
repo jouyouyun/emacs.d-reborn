@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company lsp-mode lsp-ui ccls lsp-latex lsp-ivy go-snippets treemacs lsp-treemacs))
+(wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -108,20 +108,32 @@
          (lambda () (require 'ccls) (lsp))))
 
 ;; LaTex
-;; Depends: texlab
-(use-package lsp-latex
-  :ensure t
-  :config
-  (setq lsp-latex-build-executable "lualatex")
-  ;; "texlab" must be located at a directory contained in `exec-path'.
-  ;; If you want to put "texlab" somewhere else,
-  ;; you can specify the path to "texlab" as follows:
-  (setq lsp-latex-texlab-executable "/usr/local/bin/texlab"))
+(defun wen-lsp-latex()
+  ;; dependencies: texlab
+  (wen-require-package 'lsp-latex)
+  (use-package lsp-latex
+    :ensure t
+    :config
+    (setq lsp-latex-build-executable "lualatex")
+    ;; "texlab" must be located at a directory contained in `exec-path'.
+    ;; If you want to put "texlab" somewhere else,
+    ;; you can specify the path to "texlab" as follows:
+    ;; (setq lsp-latex-texlab-executable "/usr/local/bin/texlab"))
 
-(add-hook 'latex-mode-hook
-          (lambda ()
-            (setq lsp-latex-build-output-directory "/tmp/")
-            (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "%f"))))
+    (add-hook 'latex-mode-hook
+              (lambda ()
+                (setq lsp-latex-build-output-directory "/tmp/")
+                (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "%f")))))
+  (setq lsp-tex-server 'texlab))
+
+(when wen-tex-server
+  (message "Will set tex server to %s" wen-tex-server)
+  (if (equal wen-tex-server "digestif")
+      ;; Depends: luarocks digestif
+      ;; Install: sudo apt install liblua5.3-0 liblua5.3-dev
+      ;; texlab cause cpu 100%, using digestif as default
+      (setq lsp-tex-server 'digestif)
+    (wen-lsp-latex)))
 
 (with-eval-after-load "tex-mode"
   (add-hook 'tex-mode-hook 'lsp)

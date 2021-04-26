@@ -46,7 +46,11 @@
 
 + =texlab=
 
-  =LaTex= 代码补全，从 [[https://github.com/latex-lsp/texlab/releases]] 下载， *二进制文件必须放在 =/usr/local/bin/texlab=*
+  =LaTex= 代码补全，从 [[https://github.com/latex-lsp/texlab/releases]] 下载， *二进制文件必须放在 =/usr/local/bin/texlab=* ，目前会出现 =cpu 100%= 的问题，换用 =digestif=
+
++ =luarocks, digestif=
+
+  =sudo apt install luarocks liblua5.3-0 liblua5.3-dev= , =sudo luarocks --server http://luarocks.org/dev install digestif= 。用 =digestif= 作为默认的 =lsp-tex-server= ，可通过 =wen-tex-server= 修改。
 
 + =pip install pygments=
 
@@ -430,11 +434,11 @@ C-x o # 窗口调整
 
   - 括号高亮
 
-	使用 =highlight-parentheses= 实现高亮，会高亮选中行
+    使用 =highlight-parentheses= 实现高亮，会高亮选中行
 
   - 自动匹配括号
 
-	使用 =smartparens= 实现，不全局启动，只打开指定语言
+    使用 =smartparens= 实现，不全局启动，只打开指定语言
 
   - 自动加载文件当文件发生改变
   - 保存访问历史
