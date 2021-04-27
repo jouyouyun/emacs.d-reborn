@@ -72,7 +72,7 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'string
   :group 'wen)
 
-(defcustom wen-tex-server "digestif"
+(defcustom wen-tex-server "texlab"
   "The default latex server, avaliables: digestif, texlab."
   :type 'string
   :group 'wen)

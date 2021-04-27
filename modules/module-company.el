@@ -25,6 +25,8 @@
 
 
 (use-package lsp-mode
+  :custom
+  (lsp-ui-sideline-show-diagnostics nil)
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
@@ -51,7 +53,7 @@
 
 
 (require 'lsp-mode)
-(require 'lsp-ivy)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 ;; Configuration to fix LSP
 ;; we will got error "Wrong type argument: sequencep" from `eldoc-message' if `lsp-enable-eldoc' is non-nil
