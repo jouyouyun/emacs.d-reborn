@@ -73,8 +73,8 @@
 ;; Codes Syntax Highlighting
 (require 'ox-latex)
 ;(add-to-list 'org-latex-packages-alist '("" "listings"))
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(add-to-list 'org-latex-packages-alist '("" "color"))
+;(add-to-list 'org-latex-packages-alist '("" "minted"))
+;(add-to-list 'org-latex-packages-alist '("" "color"))
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process
       '("lualatex -shell-escape -interaction nonstopmode --output-directory=/tmp/ %f"
