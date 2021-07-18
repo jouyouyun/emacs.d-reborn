@@ -116,7 +116,6 @@
   (use-package lsp-latex
     :ensure t
     :config
-    (setq lsp-latex-build-executable "lualatex")
     ;; "texlab" must be located at a directory contained in `exec-path'.
     ;; If you want to put "texlab" somewhere else,
     ;; you can specify the path to "texlab" as follows:
@@ -124,8 +123,13 @@
 
     (add-hook 'latex-mode-hook
               (lambda ()
-                (setq lsp-latex-build-output-directory "/tmp/")
-                (setq lsp-latex-build-args '("-shell-escape" "-interaction=nonstopmode" "%f")))))
+                ;; Use 'luatex' as default tex engine
+                (setq TeX-engine 'luatex
+                      TeX-show-compilation t)
+                (add-to-list 'tex-compile-commands '("lualatex -interaction=nonstopmode --shell-escape --synctex=1 %f" t "%r.pdf"))
+                ;(setq lsp-latex-build-output-directory "/tmp/") ;; issue with plantuml
+                (setq lsp-latex-build-executable "lualatex") ;; why not work, still use 'latexmk'? Now add the file '~/.latexmkrc'
+                (setq lsp-latex-build-args '("-lualatex" "-interaction=nonstopmode" "--shell-escape" "-synctex=1" "%f")))))
   (setq lsp-tex-server 'texlab))
 
 (when wen-tex-server
@@ -146,6 +150,12 @@
 ;; For bibtex
 (with-eval-after-load "bibtex"
   (add-hook 'bibtex-mode-hook 'lsp))
+
+(defun wen-latex-build-clean()
+  (interactive)
+  (shell-command "cp -f *.pdf /tmp/")
+  (shell-command "rm -f *.fdb_latexmk *.fls || /bin/true") ;; for 'lsp-latex-build'
+  (shell-command "rm -f *.aux *.log *.out *.latex *.txt *.toc *.pdf *.gz"))
 
 ;; python
 (wen-require-packages '(lsp-python-ms))

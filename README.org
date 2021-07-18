@@ -46,7 +46,9 @@
 
 + =texlab=
 
-  =LaTex= 代码补全，从 [[https://github.com/latex-lsp/texlab/releases]] 下载， *二进制文件必须放在 =/usr/local/bin/texlab=* ，目前会出现 =cpu 100%= 的问题，换用 =digestif=
+  =LaTex= 代码补全，从 [[https://github.com/latex-lsp/texlab/releases]] 下载，目前会偶现 =cpu 100%= 的问题，也可换用 =digestif= 。
+
+  使用 =lsp-latex= 时可通过 =lsp-latex-build= 编译 =tex=文件，但需要设定 =~/.latexmkrc= 文件，可从 =./templates/= 中复制，默认用的是 =lualatex= 。
 
 + =luarocks, digestif=
 
