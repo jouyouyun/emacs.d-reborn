@@ -7,7 +7,7 @@
 ;; This file sets up ivy, swiper and counsel.
 
 ;;; Code:
-(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy counsel-gtags wgrep))
+(wen-require-packages '(ivy swiper counsel all-the-icons-ivy counsel-tramp counsel-projectile lsp-ivy counsel-gtags wgrep ivy-xref gxref))
 
 ;; wgrep for ivy multi-editor
 
@@ -71,6 +71,21 @@
   (define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
   ;; (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-pop-stack) ;; replace with xref-pop-maker-stack
   )
+
+(use-package ivy-xref
+  :ensure t
+  :init
+  ;; xref initialization is different in Emacs 27 - there are two different
+  ;; variables which can be set rather than just one
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
+  ;; commands other than xref-find-definitions (e.g. project-find-regexp)
+  ;; as well
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+
+;; gxref
+(add-to-list 'xref-backend-functions 'gxref-xref-backend)
 
 (provide 'core-ivy)
 

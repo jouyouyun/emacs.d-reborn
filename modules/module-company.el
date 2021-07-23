@@ -7,7 +7,8 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
+(wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs))
+;; (wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -100,14 +101,13 @@
 
 
 ;; ccls
-(use-package ccls
-  :ensure t
-  :config
-  (setq ccls-executable "ccls")
-  (setq lsp-prefer-flymake nil)
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+;;;(use-package ccls
+;;;  :ensure t
+;;;  :config
+;;;  (setq lsp-prefer-flymake nil)
+;;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+;;;  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;;;         (lambda () (require 'ccls) (lsp))))
 
 ;; LaTex
 (defun wen-lsp-latex()
