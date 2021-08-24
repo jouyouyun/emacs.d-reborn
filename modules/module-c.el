@@ -25,7 +25,7 @@
 
 (defun wen-ccls-create-compile-json-makefile (dir)
   (let ((default-directory dir))
-    (shell-command "make clean && bear make"))
+    (shell-command "make clean && bear -- make -j16"))
   (message "compile_commands.json created by bear make"))
 
 (defun wen-ccls-create-compile-json-ninja (dir)

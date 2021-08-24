@@ -153,9 +153,12 @@
 
 (defun wen-latex-build-clean()
   (interactive)
-  (shell-command "cp -f *.pdf /tmp/")
+  (shell-command "cp -f *.pdf /tmp/ || /bin/true")
   (shell-command "rm -f *.fdb_latexmk *.fls || /bin/true") ;; for 'lsp-latex-build'
-  (shell-command "rm -f *.aux *.log *.out *.latex *.txt *.toc *.pdf *.gz"))
+  (shell-command "rm -f *.latex || /bin/true")
+  (shell-command "rm -f *.pdf || /bin/true")
+  (shell-command "rm -f *.txt || /bin/true") ;; plantuml
+  (shell-command "rm -f *.aux *.log *.out *.toc *.gz"))
 
 ;; python
 (wen-require-packages '(lsp-python-ms))
