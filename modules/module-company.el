@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs))
+(wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs company-org-block company-tabnine))
 ;; (wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
@@ -24,6 +24,29 @@
 (add-hook 'after-init-hook 'global-company-mode)
 ;; (global-company-mode 1)
 
+;; Customize company backends.
+(setq company-backends
+      '(
+        (company-tabnine company-dabbrev company-keywords company-files company-capf)
+        ))
+
+;; Add `company-elisp' backend for elisp.
+(add-hook 'emacs-lisp-mode-hook
+          #'(lambda ()
+              (require 'company-elisp)
+              (push 'company-elisp company-backends)))
+
+;; Remove duplicate candidate.
+(add-to-list 'company-transformers #'delete-dups)
+
+;; org-block
+(use-package company-org-block
+  :ensure t
+  :custom
+  (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
+  :hook ((org-mode . (lambda ()
+                       (setq-local company-backends '(company-org-block))
+                       (company-mode +1)))))
 
 (use-package lsp-mode
   :custom
@@ -127,7 +150,6 @@
                 (setq TeX-engine 'luatex
                       TeX-show-compilation t)
                 (add-to-list 'tex-compile-commands '("lualatex -interaction=nonstopmode --shell-escape --synctex=1 %f" t "%r.pdf"))
-                ;(setq lsp-latex-build-output-directory "/tmp/") ;; issue with plantuml
                 (setq lsp-latex-build-executable "lualatex") ;; why not work, still use 'latexmk'? Now add the file '~/.latexmkrc'
                 (setq lsp-latex-build-args '("-lualatex" "-interaction=nonstopmode" "--shell-escape" "-synctex=1" "%f")))))
   (setq lsp-tex-server 'texlab))

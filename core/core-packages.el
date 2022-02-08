@@ -43,8 +43,7 @@
     easy-kill ;; TODO(jouyouyun): learn it
     gist
     git-timemachine
-    gitconfig-mode
-    gitignore-mode
+    gitconfig
     projectile
     smartparens
     smartrep
