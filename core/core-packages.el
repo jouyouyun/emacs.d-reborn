@@ -148,7 +148,8 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
                                  (,mode)))))
 
 (defvar wen-auto-install-alist
-  '(("\\.clj\\'" clojure-mode clojure-mode)
+  '(("\\.asn1\\'" asn1-mode asn1-mode)
+    ("\\.clj\\'" clojure-mode clojure-mode)
     ("\\.cmake\\'" cmake-mode cmake-mode)
     ("CMakeLists\\.txt\\'" cmake-mode cmake-mode)
     ("\\.coffee\\'" coffee-mode coffee-mode)
