@@ -7,6 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
+;; (wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs company-org-block))
 (wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs company-org-block company-tabnine))
 ;; (wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
 
@@ -28,7 +29,7 @@
 (setq company-backends
       '(
         (company-tabnine company-dabbrev company-keywords company-files company-capf)
-        ))
+       ))
 
 ;; Add `company-elisp' backend for elisp.
 (add-hook 'emacs-lisp-mode-hook
@@ -51,6 +52,11 @@
 (use-package lsp-mode
   :custom
   (lsp-ui-sideline-show-diagnostics nil)
+  (lsp-enable-snippet t)
+  (lsp-keep-workspace-alive t)
+  (lsp-enable-xref t)
+  (lsp-enable-imenu t)
+  (require 'lsp-clients)
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
@@ -59,22 +65,34 @@
   :ensure t
   :commands lsp-ui-mode)
 
-(require 'lsp-ui)
-(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l .") 'lsp-ui-peek-find-definitions)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l ?") 'lsp-ui-peek-find-references)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l r") 'lsp-rename)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l x") 'lsp-restart-workspace)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l w") 'lsp-ui-peek-find-workspace-symbol)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l i") 'lsp-ui-peek-find-implementation)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
-;; (define-key lsp-ui-mode-map (kbd "C-c C-l e") 'lsp-execute-code-action)
-(setq lsp-ui-sideline-enable t)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-peek-enable t)
-(setq lsp-ui-peek-always-show t)
+(use-package lsp-ui
+  :ensure t
+  :custom-face
+  (lsp-ui-doc-background ((t (:background ni))))
+  :init (setq lsp-ui-doc-enable t
+              lsp-ui-doc-include-signature t               
 
+              lsp-enable-snippet nil
+              lsp-ui-sideline-enable nil
+              lsp-ui-peek-enable nil
+
+              lsp-ui-doc-position              'at-point
+              lsp-ui-doc-header                nil
+              lsp-ui-doc-border                "white"
+              lsp-ui-doc-include-signature     t
+              lsp-ui-sideline-update-mode      'point
+              lsp-ui-sideline-delay            1
+              lsp-ui-sideline-ignore-duplicate t
+              lsp-ui-peek-always-show          t
+              lsp-ui-flycheck-enable           nil
+              )
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c u" . lsp-ui-imenu))
+  :config
+  (setq lsp-ui-sideline-ignore-duplicate t)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (require 'lsp-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)

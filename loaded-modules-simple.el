@@ -4,3 +4,4 @@
 (require 'module-c)
 (require 'module-graphviz)
 (require 'module-plantuml)
+(require 'module-webdev)

@@ -18,6 +18,12 @@
 ;; auto break line
 (global-visual-line-mode 1)
 
+;; smart move
+(use-package mwim
+  :bind
+  ("C-a" . mwim-beginning-of-code-or-line)
+  ("C-e" . mwim-end-of-code-or-line))
+
 ;; avy
 (require 'avy)
 (global-set-key (kbd "M-g c") 'avy-goto-char)
@@ -76,8 +82,20 @@
 ;; indentation width -- eg. c-basic-offset: use that to adjust your
 ;; personal indentation width, while maintaining the style (and
 ;; meaning) of any files you load.
-(setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
-(setq-default tab-width 4)            ;; but maintain correct appearance
+(setq-default tab-width 4
+              inhibit-splash-screen t
+              initial-scratch-message nil
+              sentence-end-double-space nil
+              indent-tabs-mode nil)
+(setq create-lockfiles nil)
+
+(use-package smart-tab
+  :config
+  (progn
+    (defun @-enable-smart-tab ()
+      (smart-tab-mode))
+    (add-hook 'prog-mode-hook '@-enable-smart-tab)
+    ))
 
 ;; Newline at end of file
 ;; (setq require-final-newline t)
@@ -92,9 +110,17 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; autosave the undo-tree history
+(use-package undo-tree
+  :ensure t
+  :config
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)
+    ))
 (setq undo-tree-history-directory-alist
       `((".*" . ,temporary-file-directory)))
-(setq undo-tree-auto-save-history t)
+;; (setq undo-tree-auto-save-history t)
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
@@ -158,12 +184,17 @@
 (require 'savehist)
 (setq savehist-additional-variables
       ;; search entries
-      '(search-ring regexp-search-ring)
-      ;; save every minute
-      savehist-autosave-interval 60
-      ;; keep the home clean
-      savehist-file (expand-file-name "savehist" config-savefile-dir))
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+;; save every minute
+(setq savehist-autosave-interval 60)
+;; keep the home clean
+(setq savehist-file (expand-file-name "savehist" config-savefile-dir))
 (savehist-mode +1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
 
 ;; save recent files
 (require 'recentf)
@@ -398,6 +429,73 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
           (isearch-repeat-forward)))
     ad-do-it))
 
+(use-package neotree
+  :custom
+  (neo-theme 'nerd2)
+  :config
+  (progn
+    (setq neo-smart-open t)
+    (setq neo-theme (if (display-graphic-p) 'icons 'nerd))
+    (setq neo-window-fixed-size nil)
+    ;; (setq-default neo-show-hidden-files nil)
+    ;; (global-set-key [f2] 'neotree-toggle)
+    ;; (global-set-key [f8] 'neotree-dir)
+	))
+
+(if (not (display-graphic-p))
+    (progn
+      ;; 增大垃圾回收的阈值，提高整体性能（内存换效率）
+      (setq gc-cons-threshold (* 8192 8192))
+      ;; 增大同LSP服务器交互时的读取文件的大小
+      (setq read-process-output-max (* 1024 1024 128)) ;; 128MB
+      ))
+
+;; From: https://huadeyu.tech/tools/emacs-setup-notes.html
+(use-package rainbow-mode
+  :config
+  (progn
+    (defun @-enable-rainbow ()
+      (rainbow-mode t))
+    (add-hook 'prog-mode-hook '@-enable-rainbow)
+    ))
+(use-package rainbow-delimiters
+  :config
+  (progn
+    (defun @-enable-rainbow-delimiters ()
+      (rainbow-delimiters-mode t))
+    (add-hook 'prog-mode-hook '@-enable-rainbow-delimiters)))
+(if (display-graphic-p)
+    (progn
+      (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+                     (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+                     (36 . ".\\(?:>\\)")
+                     (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+                     (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+                     (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+                     (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+                     (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+                     (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+                     (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+                     (48 . ".\\(?:x[a-zA-Z]\\)")
+                     (58 . ".\\(?:::\\|[:=]\\)")
+                     (59 . ".\\(?:;;\\|;\\)")
+                     (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+                     (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+                     (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+                     (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+                     (91 . ".\\(?:]\\)")
+                     (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+                     (94 . ".\\(?:=\\)")
+                     (119 . ".\\(?:ww\\)")
+                     (123 . ".\\(?:-\\)")
+                     (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+                     (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+                     )
+                   ))
+        (dolist (char-regexp alist)
+          (set-char-table-range composition-function-table (car char-regexp)
+                                `([,(cdr char-regexp) 0 font-shape-gstring]))))
+      ))
 
 (provide 'core-editor)
 

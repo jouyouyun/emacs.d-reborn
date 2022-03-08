@@ -66,6 +66,11 @@
     cal-china-x
     pdf-tools
     yasnippet
+    smart-tab
+    neotree
+    rainbow-mode
+    rainbow-delimiters
+    mwim
     ;; flycheck
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
