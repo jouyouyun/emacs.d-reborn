@@ -7,9 +7,9 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-;; (wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs company-org-block))
-(wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets treemacs lsp-treemacs company-org-block company-tabnine))
-;; (wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets treemacs lsp-treemacs))
+;; (wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets lsp-treemacs company-org-block))
+(wen-require-packages '(company lsp-mode lsp-ui lsp-ivy go-snippets lsp-treemacs company-org-block company-tabnine))
+;; (wen-require-packages '(company lsp-mode lsp-ui ccls lsp-ivy go-snippets lsp-treemacs))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -104,8 +104,14 @@
 (setq lsp-message-project-root-warning t)
 ;; we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
 (setq create-lockfiles nil)
+
 ;; enable treemacs sync
-(lsp-treemacs-sync-mode 1)
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list
+  :config
+  (lsp-metals-treeview-enable t)
+  (lsp-treemacs-sync-mode 1)
+  (setq lsp-metals-treeview-show-when-views-received t))
 
 ;;; GoLang
 ;; Dependencies:

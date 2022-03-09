@@ -64,6 +64,7 @@
 (require 'core-org)
 (require 'core-chinese)
 (require 'core-autoinsert)
+(require 'core-treemacs)
 (require 'core-tips)
 
 (message "Loading optional modules...")

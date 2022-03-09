@@ -71,6 +71,11 @@
     rainbow-mode
     rainbow-delimiters
     mwim
+    winum
+    ;; persp-mode
+    treemacs
+    treemacs-projectile
+    ;; treemacs-persp
     ;; flycheck
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
