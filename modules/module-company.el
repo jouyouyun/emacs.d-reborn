@@ -30,12 +30,51 @@
       '(
         (company-tabnine company-dabbrev company-keywords company-files company-capf)
        ))
+(dolist (hook '(go-mode-hook
+                python-mode-hook
+                c++-mode-hook
+                c-mode-hook
+                rust-mode-hook
+                html-mode-hook
+                js-mode-hook
+                typescript-mode-hook
+                json-mode-hook
+                yaml-mode-hook
+                dockerfile-mode-hook
+                shell-mode-hook
+                css-mode-hook
+                latex-mode-hook
+                LaTeX-mode-hook
+                plain-tex-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (set (make-local-variable 'company-backends) '(
+                                                             (company-tabnine
+                                                              company-dabbrev
+                                                              company-keywords
+                                                              company-files
+                                                              company-capf)
+                                                             )))))
+(set (make-local-variable 'company-backends) '(
+                                                             (company-tabnine
+                                                              company-dabbrev
+                                                              company-keywords
+                                                              company-files
+                                                              company-capf)
+                                                             ))
 
 ;; Add `company-elisp' backend for elisp.
 (add-hook 'emacs-lisp-mode-hook
           #'(lambda ()
               (require 'company-elisp)
-              (push 'company-elisp company-backends)))
+              (set (make-local-variable 'company-backends) '(
+                                                             (company-tabnine
+                                                              company-elisp
+                                                              company-dabbrev
+                                                              company-keywords
+                                                              company-files
+                                                              company-capf)
+                                                             ))))
 
 ;; Remove duplicate candidate.
 (add-to-list 'company-transformers #'delete-dups)
@@ -56,11 +95,25 @@
   (lsp-keep-workspace-alive t)
   (lsp-enable-xref t)
   (lsp-enable-imenu t)
-  (require 'lsp-clients)
+  :config
+  (add-hook 'go-mode-hook #'lsp)
+  (add-hook 'python-mode-hook #'lsp)
+  (add-hook 'c++-mode-hook #'lsp)
+  (add-hook 'c-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'html-mode-hook #'lsp)
+  (add-hook 'js-mode-hook #'lsp)
+  (add-hook 'typescript-mode-hook #'lsp)
+  (add-hook 'json-mode-hook #'lsp)
+  (add-hook 'yaml-mode-hook #'lsp)
+  (add-hook 'dockerfile-mode-hook #'lsp)
+  (add-hook 'shell-mode-hook #'lsp)
+  (add-hook 'css-mode-hook #'lsp)  
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
 
+;; (require 'lsp-clients)
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode)
@@ -68,7 +121,7 @@
 (use-package lsp-ui
   :ensure t
   :custom-face
-  (lsp-ui-doc-background ((t (:background ni))))
+  ;; (lsp-ui-doc-background ((t (:background ni))))
   :init (setq lsp-ui-doc-enable t
               lsp-ui-doc-include-signature t               
 
@@ -109,7 +162,6 @@
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list
   :config
-  (lsp-metals-treeview-enable t)
   (lsp-treemacs-sync-mode 1)
   (setq lsp-metals-treeview-show-when-views-received t))
 
