@@ -26,42 +26,36 @@
 ;; (global-company-mode 1)
 
 ;; Customize company backends.
-(setq company-backends
-      '(
-        (company-tabnine company-dabbrev company-keywords company-files company-capf)
-       ))
-(dolist (hook '(go-mode-hook
-                python-mode-hook
-                c++-mode-hook
-                c-mode-hook
-                rust-mode-hook
-                html-mode-hook
-                js-mode-hook
-                typescript-mode-hook
-                json-mode-hook
-                yaml-mode-hook
-                dockerfile-mode-hook
-                shell-mode-hook
-                css-mode-hook
-                latex-mode-hook
-                LaTeX-mode-hook
-                plain-tex-mode-hook))
-  (add-hook hook
-            (lambda ()
-              (set (make-local-variable 'company-backends) '(
-                                                             (company-tabnine
-                                                              company-dabbrev
-                                                              company-keywords
-                                                              company-files
-                                                              company-capf)
-                                                             )))))
 (set (make-local-variable 'company-backends) '(
-                                                             (company-tabnine
-                                                              company-dabbrev
-                                                              company-keywords
-                                                              company-files
-                                                              company-capf)
-                                                             ))
+                                               (company-tabnine
+                                                company-dabbrev
+                                                company-keywords
+                                                company-files)
+                                               ))
+;; (dolist (hook '(go-mode-hook
+;;                 python-mode-hook
+;;                 c++-mode-hook
+;;                 c-mode-hook
+;;                 rust-mode-hook
+;;                 html-mode-hook
+;;                 js-mode-hook
+;;                 typescript-mode-hook
+;;                 json-mode-hook
+;;                 yaml-mode-hook
+;;                 dockerfile-mode-hook
+;;                 shell-mode-hook
+;;                 css-mode-hook
+;;                 latex-mode-hook
+;;                 LaTeX-mode-hook
+;;                 plain-tex-mode-hook))
+;;   (add-hook hook
+;;             (lambda ()
+;;               (set (make-local-variable 'company-backends) '(
+;;                                                              (company-tabnine
+;;                                                               company-dabbrev
+;;                                                               company-keywords
+;;                                                               company-files)
+;;                                                              )))))
 
 ;; Add `company-elisp' backend for elisp.
 (add-hook 'emacs-lisp-mode-hook
@@ -72,8 +66,7 @@
                                                               company-elisp
                                                               company-dabbrev
                                                               company-keywords
-                                                              company-files
-                                                              company-capf)
+                                                              company-files)
                                                              ))))
 
 ;; Remove duplicate candidate.
