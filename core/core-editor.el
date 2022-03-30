@@ -364,6 +364,8 @@ indent yanked text (with prefix arg don't indent)."
 (diminish 'undo-tree-mode)
 
 ;; enable winner-mode to manage window configurations
+;; C-c left --> winner-undo
+;; C-c right --> winner-redo
 (winner-mode +1)
 
 ;; diff-hl

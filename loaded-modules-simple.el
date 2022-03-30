@@ -1,3 +1,4 @@
+(require 'module-org-roam)
 (require 'module-git)
 (require 'module-gtags)
 (require 'module-company)
