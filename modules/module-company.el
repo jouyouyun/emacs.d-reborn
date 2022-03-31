@@ -14,7 +14,7 @@
 ;; Enable 'company-fuzzy' if needed
 
 (require 'company)
-(setq company-idle-delay 0.5)
+(setq company-idle-delay 0.3)
 (setq company-show-numbers t)
 (setq company-tooltip-limit 10)
 (setq company-minimum-prefix-length 2)
@@ -32,30 +32,6 @@
                                                 company-keywords
                                                 company-files)
                                                ))
-;; (dolist (hook '(go-mode-hook
-;;                 python-mode-hook
-;;                 c++-mode-hook
-;;                 c-mode-hook
-;;                 rust-mode-hook
-;;                 html-mode-hook
-;;                 js-mode-hook
-;;                 typescript-mode-hook
-;;                 json-mode-hook
-;;                 yaml-mode-hook
-;;                 dockerfile-mode-hook
-;;                 shell-mode-hook
-;;                 css-mode-hook
-;;                 latex-mode-hook
-;;                 LaTeX-mode-hook
-;;                 plain-tex-mode-hook))
-;;   (add-hook hook
-;;             (lambda ()
-;;               (set (make-local-variable 'company-backends) '(
-;;                                                              (company-tabnine
-;;                                                               company-dabbrev
-;;                                                               company-keywords
-;;                                                               company-files)
-;;                                                              )))))
 
 ;; Add `company-elisp' backend for elisp.
 (add-hook 'emacs-lisp-mode-hook
@@ -119,8 +95,8 @@
               lsp-ui-doc-include-signature t               
 
               lsp-enable-snippet nil
-              lsp-ui-sideline-enable nil
-              lsp-ui-peek-enable nil
+              lsp-ui-sideline-enable t
+              lsp-ui-peek-enable t
 
               lsp-ui-doc-position              'at-point
               lsp-ui-doc-header                nil
