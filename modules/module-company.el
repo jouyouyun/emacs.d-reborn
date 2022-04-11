@@ -68,7 +68,7 @@
   (add-hook 'go-mode-hook #'lsp)
   (add-hook 'python-mode-hook #'lsp)
   (add-hook 'c++-mode-hook #'lsp)
-  (add-hook 'c-mode-hook #'lsp)
+  (add-hook 'c-mode-common-hook #'lsp)
   (add-hook 'rust-mode-hook #'lsp)
   (add-hook 'html-mode-hook #'lsp)
   (add-hook 'js-mode-hook #'lsp)
@@ -99,7 +99,7 @@
               lsp-ui-peek-enable t
 
               lsp-ui-doc-position              'at-point
-              lsp-ui-doc-header                nil
+              lsp-ui-doc-header                t
               lsp-ui-doc-border                "white"
               lsp-ui-doc-include-signature     t
               lsp-ui-sideline-update-mode      'point
