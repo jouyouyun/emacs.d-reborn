@@ -96,6 +96,59 @@
   (org-roam-timestamps-mode))
 
 
+;; Roam publish
+(defun wen-roam-sitemap (title list)
+  (message "Generate siemap %s - %s:" title list)
+  (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
+          "#+TITLE: " title "\n\n"
+          (org-list-to-org list) "\nfile:sitemap.svg"))
+
+(setq wen-publish-time 0) ;; see the next section for context
+(defun wen-roam-publication-wrapper (plist filename pubdir)
+  (org-roam-graph)
+  (org-html-publish-to-html plist filename pubdir)
+  (setq wen-publish-time (cadr (current-time))))
+
+(defun wen-org-roam-custom-link-builder (node)
+  (let ((file (org-roam-node-file node)))
+    (concat (file-name-base file) ".html")))
+
+(defun wen-roam-export (dir)
+  (unless (file-exists-p dir)
+    (make-directory dir))
+  (setq pubdir (replace-regexp-in-string "/" "-" dir))
+  (setq pubdir (concat "pages" pubdir))
+  (setq pubdir (expand-file-name pubdir "/tmp"))
+  (unless (file-exists-p pubdir)
+    (make-directory pubdir))
+  (message "Will export '%s' to '%s'" dir pubdir)
+  (setq org-publish-project-alist
+        '(("roam"
+           :base-directory "~/Downloads/Tmp/Note"
+           :auto-sitemap t
+           :sitemap-function wen-roam-sitemap
+           :sitemap-title "Roam notes"
+           :publishing-function wen-roam-publication-wrapper
+           :publishing-directory "/tmp/shm/tmp"
+           :section-number nil
+           :table-of-contents nil
+           )))
+  ;; override the default link creation function
+  (setq org-roam-graph-link-builder 'wen-org-roam-custom-link-builder)
+  ;; copying the generated file to the export dir
+  ;; depends: graphviz
+  (add-hook 'org-roam-graph-generation-hook
+            (lambda (dot svg) (if (< (- (cadr (current-time)) wen-publish-time) 5)
+                                  (progn (copy-file svg (expand-file-name "sitemap.svg" "/tmp/shm/tmp/") 't)
+                                         (kill-buffer (file-name-nondirectory svg))
+                                         (setq wen-publish-time 0)))))
+  )
+
+(defun wen-roam-publish-switch ()
+  (interactive)
+  (wen-roam-export (read-directory-name
+                    "Org Roam Export Dir:" default-directory)))
+
 (provide 'module-org-roam)
 
 ;;; module-org-roam.el ends here
