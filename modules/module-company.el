@@ -95,7 +95,7 @@
               lsp-ui-doc-include-signature t               
 
               lsp-enable-snippet nil
-              lsp-ui-sideline-enable t
+              lsp-ui-sideline-enable nil
               lsp-ui-peek-enable t
 
               lsp-ui-doc-position              'at-point
@@ -105,7 +105,7 @@
               lsp-ui-sideline-update-mode      'point
               lsp-ui-sideline-delay            1
               lsp-ui-sideline-ignore-duplicate t
-              lsp-ui-peek-always-show          t
+              lsp-ui-peek-always-show          nil
               lsp-ui-flycheck-enable           nil
               )
   :bind (:map lsp-ui-mode-map
