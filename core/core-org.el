@@ -103,14 +103,14 @@
 
 ;; agenda
 (global-set-key (kbd "C-c c")   'org-capture)
-(setq org-agenda-files '("~/Documents/Notes/"))
+(setq org-agenda-files '("~/Documents/PersonalKnowledgeGraph/Daily"))
 ;; 定义 agenda 文件的位置
 (setq org-capture-templates
-      `(("w" "Task [work]" entry (file "~/Documents/Notes/weekly.org")
+      `(("w" "Task [work]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/weekly.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
-        ("p" "Task [person]" entry (file "~/Documents/Notes/person_task.org")
+        ("p" "Task [person]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/person_task.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
-        ("n" "Note" entry (file "~/Documents/Notes/note.org")
+        ("n" "Note" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/note.org")
          "* %? :NOTE:\nCaptured %<%Y-%m-%d %H:%M>\n")))
 
 ;; 设置移动到的目标文件列表为 agenda-files
@@ -209,7 +209,7 @@
 ;; In order to include entries from the Emacs diary into Org mode's agenda
 
 (setq org-agenda-include-diary t
-   diary-file (locate-user-emacs-file "~/Documents/Notes/diary.org")
+   diary-file (locate-user-emacs-file "~/Documents/PersonalKnowledgeGraph/Daily/diary.org")
    org-agenda-diary-file 'diary-file)
 
 ;; diary for chinese birthday

@@ -55,6 +55,9 @@
 (unless (file-exists-p config-roam-db-dir)
   (make-directory config-roam-db-dir))
 
+;; fixed ox-hugo export md error: unable to resolve link
+;; (require 'find-lisp)
+
 (defun wen-roam-set-directory (dir)
   (setq wen-db-name (replace-regexp-in-string "/" "_" dir))
   (setq wen-db-name (concat wen-db-name ".db"))
@@ -62,10 +65,12 @@
   (setq org-roam-directory dir)
   (message "Set roam db to %s" (expand-file-name wen-db-name config-roam-db-dir))
   (setq org-roam-db-location (expand-file-name wen-db-name config-roam-db-dir))
+  ;; fixed ox-hugo export md error: unable to resolve link
+  ;; (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
   )
 
 ;; default roam dir
-(wen-roam-set-directory "~/Documents/Notes/Roam/")
+(wen-roam-set-directory (expand-file-name  "PersonalKnowledgeGraph" "~/Documents/"))
 
 (defun wen-roam-switch ()
   (interactive)
