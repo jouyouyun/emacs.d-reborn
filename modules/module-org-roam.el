@@ -59,7 +59,7 @@
 ;; (require 'find-lisp)
 
 (defun wen-roam-set-directory (dir)
-  (setq wen-db-name (replace-regexp-in-string "/" "_" dir))
+  (setq wen-db-name (replace-regexp-in-string "/" "" dir))
   (setq wen-db-name (concat wen-db-name ".db"))
   (message "Switch roam directory to %s" dir)
   (setq org-roam-directory dir)
