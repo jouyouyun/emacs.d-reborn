@@ -70,7 +70,7 @@
   )
 
 ;; default roam dir
-(wen-roam-set-directory (expand-file-name  "PersonalKnowledgeGraph" "~/Documents/"))
+(wen-roam-set-directory (expand-file-name  "Note" "~/Documents/PersonalKnowledgeGraph/"))
 
 (defun wen-roam-switch ()
   (interactive)
