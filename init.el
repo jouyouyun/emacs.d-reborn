@@ -29,6 +29,8 @@
   "Emacs optional modules dir.")
 (defvar config-personal-dir (expand-file-name "personal" config-dir)
   "Emacs personal modules dir.")
+(defvar config-personal-package-dir (expand-file-name "packages" config-personal-dir)
+  "Emacs personal packages dir.")
 (defvar config-savefile-dir (expand-file-name "savefile" config-dir)
   "Emacs automatically generated files, such as: recently, history etc.")
 (defvar config-modules-file (expand-file-name "loaded-modules.el" config-personal-dir)

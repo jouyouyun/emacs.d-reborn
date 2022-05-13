@@ -85,6 +85,15 @@
   (interactive)
   (insert "#+latex: \\newpage\n"))
 
+(defun wen-latex-build-clean()
+  (interactive)
+  (shell-command "cp -f *.pdf /tmp/ || /bin/true")
+  (shell-command "rm -f *.fdb_latexmk *.fls || /bin/true") ;; for 'lsp-latex-build'
+  (shell-command "rm -f *.latex || /bin/true")
+  (shell-command "rm -f *.pdf || /bin/true")
+  (shell-command "rm -f *.txt || /bin/true") ;; plantuml
+  (shell-command "rm -f *.aux *.log *.out *.toc *.gz"))
+
 ;;; markdown
 (wen-require-package 'ox-gfm)
 (eval-after-load "org"
