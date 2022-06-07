@@ -14,9 +14,9 @@
 ;; sets up package repositories
 ;; repository help: https://mirror.tuna.tsinghua.edu.cn/help/elpa/
 (setq package-archives '(
-                         ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+                         ("gnu" . "https://elpa.zilongshanren.com/gnu/")
+                         ("melpa" . "https://elpa.zilongshanren.com/melpa/")
+                         ("org" . "https://elpa.zilongshanren.com/org/")))
 
 ;; set package-user-dir to be relative install path
 (setq package-user-dir (expand-file-name "elpa" config-dir))
