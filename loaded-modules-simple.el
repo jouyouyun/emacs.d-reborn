@@ -1,9 +1,12 @@
 (require 'module-custom)
+;; (setq wen-module-lsp-frame "lsp-bridge")
+
 (require 'module-org-roam)
 (require 'module-git)
 (require 'module-gtags)
 (require 'module-company)
 (require 'module-c)
-(require 'module-graphviz)
+;; (require 'module-graphviz)
 (require 'module-plantuml)
 (require 'module-webdev)
+(require 'module-hugo)
