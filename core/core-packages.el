@@ -77,6 +77,7 @@
     treemacs-projectile
     ;; treemacs-persp
     ;; flycheck
+    xmind-org ;; import xmind file into org mode
     zop-to-char)
   "A list of packages to ensure are installed at launch.")
 

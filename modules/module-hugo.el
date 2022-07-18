@@ -34,6 +34,19 @@
 ;; Convert to md:
 ;;    C-c C-e H h
 
+(defun wen-hugo-auto-insert()
+  (interactive)
+  (insert "#+HUGO_BASE_DIR: ../
+#+HUGO_SECTION: emacs
+#+SEQ_TODO: TODO NEXT DRAFT DONE
+#+OPTIONS:   *:t <:nil timestamp:nil toc:nil ^:{}
+#+HUGO_AUTO_SET_LASTMOD: t
+#+DATE: 2022-07-18T11:20:21+08:00
+#+HUGO_TAGS: tag1 tag2
+#+HUGO_CATEGORIES: emacs
+#+HUGO_DRAFT: false
+"))
+
 (provide 'module-hugo)
 
 ;;; module-hugo.el ends here
