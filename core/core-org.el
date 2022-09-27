@@ -223,9 +223,11 @@
 
 ;; diary for chinese birthday
 ;; https://emacs-china.org/t/topic/2119/14
-(defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
+(require 'cal-china)
+(defun wen-diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
   (if year
-      (let* ((d-date (diary-make-date lunar-month lunar-day year))
+      (let* ((calendar-date-style 'american)
+             (d-date (diary-make-date lunar-month lunar-day year))
              (a-date (calendar-absolute-from-gregorian d-date))
              (c-date (calendar-chinese-from-absolute a-date))
              (cycle (car c-date))
