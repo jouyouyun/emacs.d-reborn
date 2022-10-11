@@ -9,14 +9,30 @@
 ;;; Code:
 
 (defun wen-c-common-defaults ()
-  (setq c-default-style "linux"
-        c-basic-offset 4
-        tab-width 4
-        indent-tabs-mode t)
-  (c-set-offset 'substatement-open 1))
+  (interactive)
+  (setq c-basic-offset 2
+        ;; tab-width 4
+        ;; indent-tabs-mode t
+        c-default-style "linux"
+        ;; for tab backward hitting from 4->1
+        backward-delete-char-untabify-method nil)
+  ;; (c-set-offset 'substatement-open 1)
+  )
+
+(defun wen-cpp-common-defaults ()
+  (interactive)
+  (setq cpp-basic-offset 2
+        ;; tab-width 4
+        ;; indent-tabs-mode t
+        cpp-default-style "linux"
+        ;; for tab backward hitting from 4->1
+        backward-delete-char-untabify-method nil)
+  ;; (c-set-offset 'substatement-open 1)
+  )
 
 (add-hook 'c-mode-common-hook 'wen-c-common-defaults)
-(add-hook 'c++-mode-hook 'wen-c-common-defaults)
+(add-hook 'c-mode-hook 'wen-c-common-defaults)
+(add-hook 'c++-mode-hook 'wen-cpp-common-defaults)
 
 (defun wen-ccls-create-compile-json-cmake (dir)
   (let ((default-directory dir))
