@@ -109,18 +109,73 @@
 (setq flymd-browser-function 'my-flymd-browser-function)
 (setq flymd-output-directory "/tmp")
 
+;; https://github.com/alphapapa/org-web-tools
+(wen-require-packages '(org-web-tools))
+
+;; From: http://www.bobnewell.net/publish/35years/webclipper.html
+;; org-eww and org-w3m should be in your org distribution, but see
+;; note below on patch level of org-eww.
+(require 'eww)
+(defvar org-website-page-archive-file "~/Documents/PersonalKnowledgeGraph/Daily/websites.org")
+(defun wen-org-website-clipper ()
+  "When capturing a website page, go to the right place in capture file,
+   but do sneaky things. Because it's a w3m or eww page, we go
+   ahead and insert the fixed-up page content, as I don't see a
+   good way to do that from an org-capture template alone. Requires
+   Emacs 25 and the 2017-02-12 or later patched version of org-eww.el."
+ (interactive)
+
+  ;; Check for acceptable major mode (w3m or eww) and set up a couple of
+  ;; browser specific values. Error if unknown mode.
+
+  (cond
+   ((eq major-mode 'w3m-mode)
+     (org-w3m-copy-for-org-mode))
+   ((eq major-mode 'eww-mode)
+     (org-eww-copy-for-org-mode))
+   (t
+     (error "Not valid -- must be in w3m or eww mode")))
+
+  ;; Check if we have a full path to the archive file.
+  ;; Create any missing directories.
+
+  (unless (file-exists-p org-website-page-archive-file)
+    (let ((dir (file-name-directory org-website-page-archive-file)))
+      (unless (file-exists-p dir)
+        (make-directory dir))))
+
+  ;; Open the archive file and yank in the content.
+  ;; Headers are fixed up later by org-capture.
+
+  (find-file org-website-page-archive-file)
+  (goto-char (point-max))
+  ;; Leave a blank line for org-capture to fill in
+  ;; with a timestamp, URL, etc.
+  (insert "\n\n")
+  ;; Insert the web content but keep our place.
+  (save-excursion (yank))
+  ;; Don't keep the page info on the kill ring.
+  ;; Also fix the yank pointer.
+  (setq kill-ring (cdr kill-ring))
+  (setq kill-ring-yank-pointer kill-ring)
+  ;; Final repositioning.
+  (forward-line -1)
+)
 
 ;; agenda
 (global-set-key (kbd "C-c c")   'org-capture)
 (setq org-agenda-files '("~/Documents/PersonalKnowledgeGraph/Daily"))
 ;; 定义 agenda 文件的位置
 (setq org-capture-templates
-      `(("w" "Task [work]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/weekly.org")
+      `(("d" "Task [work]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/weekly.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
         ("p" "Task [person]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/person_task.org")
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
         ("n" "Note" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/note.org")
-         "* %? :NOTE:\nCaptured %<%Y-%m-%d %H:%M>\n")))
+         "* %? :NOTE:\nCaptured %<%Y-%m-%d %H:%M>\n")
+        ("w" "Website" plain
+         (function wen-org-website-clipper)
+         "* %a\n%T\n" :immediate-finish t)))
 
 ;; 设置移动到的目标文件列表为 agenda-files
 ;; See link: https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
