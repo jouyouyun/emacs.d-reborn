@@ -57,7 +57,7 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'number
   :group 'wen)
 
-(defcustom wen-theme 'zenburn
+(defcustom wen-theme 'eink
   "The default color theme, change this in your /personal/preload config."
   :type 'symbol
   :group 'wen)
@@ -69,11 +69,6 @@ Only modes that don't derive from `prog-mode' should be listed here."
 
 (defcustom wen-terminal "ansi-term"
   "The default terminal, avaliables: ansi-term, vterm."
-  :type 'string
-  :group 'wen)
-
-(defcustom wen-tex-server "texlab"
-  "The default latex server, avaliables: digestif, texlab."
   :type 'string
   :group 'wen)
 

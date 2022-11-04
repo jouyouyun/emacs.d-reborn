@@ -156,6 +156,7 @@
                 (setq TeX-engine 'luatex
                       TeX-show-compilation t)
                 (add-to-list 'tex-compile-commands '("lualatex -interaction=nonstopmode --shell-escape --synctex=1 %f" t "%r.pdf"))
+				;; (setq lsp-latex-texlab-executable-argument-list '("-vvvv" "--log-file" "/tmp/texlab.log"))
                 (setq lsp-latex-build-executable "lualatex") ;; why not work, still use 'latexmk'? Now add the file '~/.latexmkrc'
                 (setq lsp-latex-build-args '("-lualatex" "-interaction=nonstopmode" "--shell-escape" "-synctex=1" "%f")))))
   (setq lsp-tex-server 'texlab))
@@ -166,6 +167,7 @@
       ;; Depends: luarocks digestif
       ;; Install: sudo apt install liblua5.3-0 liblua5.3-dev
       ;; texlab cause cpu 100%, using digestif as default
+      ;; MUST rm lsp-latex in elpa
       (setq lsp-tex-server 'digestif)
     (wen-lsp-latex)))
 
