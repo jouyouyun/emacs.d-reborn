@@ -55,7 +55,8 @@
     beacon
     which-key
     zenburn-theme
-    eink-theme
+    white-sand-theme
+    github-modern-theme
     seethru ;; easily change Emacs' frame transparency
     super-save
     diminish

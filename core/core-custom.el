@@ -57,7 +57,8 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'number
   :group 'wen)
 
-(defcustom wen-theme 'eink
+;; white-sand
+(defcustom wen-theme 'github-modern
   "The default color theme, change this in your /personal/preload config."
   :type 'symbol
   :group 'wen)
