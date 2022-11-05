@@ -116,7 +116,7 @@
 ;; org-eww and org-w3m should be in your org distribution, but see
 ;; note below on patch level of org-eww.
 (require 'eww)
-(defvar org-website-page-archive-file "~/Documents/PersonalKnowledgeGraph/Daily/websites.org")
+(defvar org-website-page-archive-file (expand-file-name "WebClipper/websites.org" wen-knowledge-repo))
 (defun wen-org-website-clipper ()
   "When capturing a website page, go to the right place in capture file,
    but do sneaky things. Because it's a w3m or eww page, we go
@@ -164,15 +164,16 @@
 
 ;; agenda
 (global-set-key (kbd "C-c c")   'org-capture)
-(setq org-agenda-files '("~/Documents/PersonalKnowledgeGraph/Daily"))
+(defvar wen-org-todo (expand-file-name "TODO" wen-knowledge-repo)
+  "Personal knowledge todo dir.")
+(defvar wen-org-todo-file (expand-file-name "todo.org" wen-org-todo)
+  "Personal knowledge todo file.")
+(setq org-agenda-files (list wen-org-todo
+                             (expand-file-name "Daily" wen-knowledge-repo)))
 ;; 定义 agenda 文件的位置
 (setq org-capture-templates
-      `(("d" "Task [work]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/weekly.org")
+      `(("t" "Task" entry (file wen-org-todo-file)
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
-        ("p" "Task [person]" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/person_task.org")
-         "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
-        ("n" "Note" entry (file "~/Documents/PersonalKnowledgeGraph/Daily/note.org")
-         "* %? :NOTE:\nCaptured %<%Y-%m-%d %H:%M>\n")
         ("w" "Website" plain
          (function wen-org-website-clipper)
          "* %a\n%T\n" :immediate-finish t)))
@@ -225,15 +226,15 @@
                       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                        (org-agenda-overriding-header "High-priority unfinished tasks:")))
                 (agenda "")
-                (tags "REFILE"
-                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                       (org-agenda-overriding-header "Tasks to Refile")
-                       (org-tags-match-list-sublevels nil)))
                 (alltodo ""
                          ((org-agenda-skip-function
                            '(org-agenda-skip-entry-if 'scheduled))
                           (org-agenda-overriding-header "Global list of Un-scheduled tasks:")
-                          ))))
+                          ))
+               (tags "REFILE"
+                     ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                      (org-agenda-overriding-header "Tasks to Refile")
+                      (org-tags-match-list-sublevels nil)))))
 
               ("N" "Notes" tags "NOTE"
                ((org-agenda-overriding-header "Notes")
@@ -267,29 +268,6 @@
             (overlay-put ov 'line-spacing (1- line-height))))))))
 
 (add-hook 'org-agenda-finalize-hook #'ljg/org-agenda-time-grid-spacing)
-
-
-;; 设置生日
-;; In order to include entries from the Emacs diary into Org mode's agenda
-
-(setq org-agenda-include-diary t
-   diary-file (locate-user-emacs-file "~/Documents/PersonalKnowledgeGraph/Daily/diary.org")
-   org-agenda-diary-file 'diary-file)
-
-;; diary for chinese birthday
-;; https://emacs-china.org/t/topic/2119/14
-(require 'cal-china)
-(defun wen-diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
-  (if year
-      (let* ((calendar-date-style 'american)
-             (d-date (diary-make-date lunar-month lunar-day year))
-             (a-date (calendar-absolute-from-gregorian d-date))
-             (c-date (calendar-chinese-from-absolute a-date))
-             (cycle (car c-date))
-             (yy (cadr c-date))
-             (y (+ (* 100 cycle) yy)))
-        (diary-chinese-anniversary lunar-month lunar-day y mark))
-    (diary-chinese-anniversary lunar-month lunar-day year mark)))
 
 ;; 中国节假日
 (require 'cal-china-x)

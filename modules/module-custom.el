@@ -26,7 +26,7 @@
 (defcustom wen-tex-server "texlab"
   "The default latex server, avaliables: digestif, texlab."
   :type 'string
-  :group 'wen)
+  :group 'wen-module)
 
 (provide 'module-custom)
 

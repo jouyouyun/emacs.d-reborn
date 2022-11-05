@@ -42,9 +42,9 @@
 #+OPTIONS:   *:t <:nil timestamp:nil toc:nil ^:{}
 #+HUGO_AUTO_SET_LASTMOD: t
 #+DATE: 2022-07-18T11:20:21+08:00
-#+HUGO_TAGS: tag1 tag2
+#+HUGO_TAGS: tag1
 #+HUGO_CATEGORIES: emacs
-#+HUGO_DRAFT: false
+#+HUGO_DRAFT: true
 "))
 
 (provide 'module-hugo)

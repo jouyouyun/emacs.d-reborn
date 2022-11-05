@@ -73,6 +73,11 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'string
   :group 'wen)
 
+(defcustom wen-knowledge-repo "~/Documents/PersonalKnowledgeRepo"
+  "The default personal knowledge repo dir."
+  :type 'string
+  :group 'wen)
+
 (provide 'core-custom)
 
 ;;; core-custom.el ends here

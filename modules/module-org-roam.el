@@ -8,7 +8,7 @@
 
 ;;; Code:
 
-(wen-require-packages '(org-roam org-roam-ui org-roam-timestamps org-download org-ref))
+(wen-require-packages '(org-roam org-roam-ui org-download org-ref))
 
 (use-package org-roam
   :ensure t
@@ -70,7 +70,7 @@
   )
 
 ;; default roam dir
-(wen-roam-set-directory (expand-file-name  "Note" "~/Documents/PersonalKnowledgeGraph/"))
+(wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
 
 (defun wen-roam-switch ()
   (interactive)
@@ -94,12 +94,6 @@
         org-roam-ui-follow nil
         org-roam-ui-update-on-save nil
         org-roam-ui-open-on-start nil))
-
-(use-package org-roam-timestamps
-  :after org-roam
-  :config
-  (org-roam-timestamps-mode))
-
 
 ;; Roam publish
 (defun wen-roam-sitemap (title list)
