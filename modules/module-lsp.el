@@ -172,9 +172,9 @@
   (advice-add #'json-serialize :before-until #'advice-json-serialize)
   (setq lsp-tex-server 'texlab))
 
-(when wen-tex-server
-  (message "Will set tex server to %s" wen-tex-server)
-  (if (equal wen-tex-server "digestif")
+(when wen-module-tex-server
+  (message "Will set tex server to %s" wen-module-tex-server)
+  (if (equal wen-module-tex-server "digestif")
       ;; Depends: luarocks digestif
       ;; Install: sudo apt install liblua5.3-0 liblua5.3-dev
       ;; texlab cause cpu 100%, using digestif as default

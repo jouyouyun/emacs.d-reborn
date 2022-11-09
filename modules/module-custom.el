@@ -23,8 +23,28 @@
   :type 'string
   :group 'wen-module)
 
-(defcustom wen-tex-server "texlab"
+(defcustom wen-module-tex-server "texlab"
   "The default latex server, avaliables: digestif, texlab."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-caldav-provider "google"
+  "The default caldav provider, avaliables: google, dingtalk."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-caldav-username "jouyouwen717@gmail.com"
+  "The caldav username."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-caldav-client-id ""
+  "The caldav client id."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-caldav-client-secret ""
+  "The caldav client secret."
   :type 'string
   :group 'wen-module)
 

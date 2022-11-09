@@ -10,3 +10,4 @@
 (require 'module-plantuml)
 (require 'module-webdev)
 (require 'module-hugo)
+(require 'module-caldav)
