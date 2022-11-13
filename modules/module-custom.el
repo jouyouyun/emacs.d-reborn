@@ -28,12 +28,20 @@
   :type 'string
   :group 'wen-module)
 
-(defcustom wen-module-caldav-provider "google"
-  "The default caldav provider, avaliables: google, dingtalk."
+(defcustom wen-module-caldav-provider "nextcloud"
+  "The default caldav provider, avaliables: nextcloud, google, dingtalk."
   :type 'string
   :group 'wen-module)
 
-(defcustom wen-module-caldav-username "jouyouwen717@gmail.com"
+;; google: https://apidata.googleusercontent.com/caldav/v2
+;; dingtalk: https://calendar.dingtalk.com/dav/
+;; nextcloud: https://<host>/remote.php/dav/calendars
+(defcustom wen-module-caldav-url ""
+  "The default caldav url."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-caldav-username ""
   "The caldav username."
   :type 'string
   :group 'wen-module)

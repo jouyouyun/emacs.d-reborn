@@ -26,6 +26,11 @@
   (setq org-caldav-uuid-extension "")
   )
 
+(defun wen-caldav-nextcloud ()
+  (setq org-caldav-url wen-module-caldav-url)
+  (setq org-caldav-calendar-id wen-module-caldav-username)
+  )
+
 (defun browse-url-firefox (url &optional new-window)
   "Ask the Firefox WWW browser to load URL.
   Default to the URL around or before point.  The strings in
@@ -64,10 +69,14 @@
   (when wen-module-caldav-provider
     (message "Will set caldav provider to %s" wen-module-caldav-provider)
     (if (equal wen-module-caldav-provider "google")
-        (wen-caldav-google)
-      (wen-caldav-dingtalk)))
+        (wen-caldav-google))
+    (if (equal wen-module-caldav-provider "dingtalk")
+        (wen-caldav-dingtalk))
+    (if (equal wen-module-caldav-provider "nextcloud")
+        (wen-caldav-nextcloud))
+    )
   (setq org-caldav-sync-direction 'twoway)
-  (setq org-caldav-inbox (concat wen-knowledge-repo "/TODO/todo.org"))
+  (setq org-caldav-inbox (expand-file-name "TODO/todo.org" wen-knowledge-repo))
   (setq org-caldav-files `(,org-caldav-inbox))
   ;; (add-to-list 'org-agenda-files org-caldav-inbox)
   :config
