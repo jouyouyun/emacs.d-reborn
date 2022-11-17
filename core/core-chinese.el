@@ -39,7 +39,7 @@
 ;;                 pyim-probe-punctuation-after-punctuation))
 
 ;; 开启拼音搜索功能
-(pyim-isearch-mode 1)
+;; (pyim-isearch-mode 1)
 
 ;; 使用 pupup-el 来绘制选词框
 (require 'popup nil t)
