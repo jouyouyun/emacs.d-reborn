@@ -110,7 +110,7 @@
 (setq flymd-output-directory "/tmp")
 
 ;; https://github.com/alphapapa/org-web-tools
-(wen-require-packages '(org-web-tools))
+(wen-require-packages '(request org-web-tools))
 
 ;; From: http://www.bobnewell.net/publish/35years/webclipper.html
 ;; org-eww and org-w3m should be in your org distribution, but see

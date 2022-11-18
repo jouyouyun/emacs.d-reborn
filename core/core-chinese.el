@@ -45,6 +45,10 @@
 (require 'popup nil t)
 (setq pyim-page-tooltip 'popup)
 
+;; 如果使用 pyim-dregcache dcache 后端，就需要加载 pyim-dregcache 包。
+(require 'pyim-dregcache)
+(setq pyim-dcache-backend 'pyim-dregcache)
+
 ;; 选词框显示5个候选词
 (setq pyim-page-length 5)
 

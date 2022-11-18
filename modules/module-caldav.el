@@ -26,9 +26,10 @@
   (setq org-caldav-uuid-extension "")
   )
 
+;; nextcloud calendar
 (defun wen-caldav-nextcloud ()
   (setq org-caldav-url wen-module-caldav-url)
-  (setq org-caldav-calendar-id wen-module-caldav-username)
+  (setq org-caldav-calendar-id (concat wen-module-caldav-username "/-"))
   )
 
 (defun browse-url-firefox (url &optional new-window)
@@ -76,9 +77,11 @@
         (wen-caldav-nextcloud))
     )
   (setq org-caldav-sync-direction 'twoway)
-  (setq org-caldav-inbox (expand-file-name "TODO/todo.org" wen-knowledge-repo))
+  (setq org-icalendar-timezone "Asia/Shanghai")
+  (setq org-caldav-inbox (expand-file-name "TODO/calendar.org" wen-knowledge-repo))
   (setq org-caldav-files `(,org-caldav-inbox))
-  ;; (add-to-list 'org-agenda-files org-caldav-inbox)
+  (setq org-caldav-save-directory config-personal-dir)
+  (add-to-list 'org-agenda-files org-caldav-inbox)
   :config
   (require 'org-caldav))
 
