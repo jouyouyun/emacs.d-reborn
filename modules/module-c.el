@@ -36,9 +36,9 @@
 
 (defun wen-ccls-create-compile-json-cmake (dir)
   (let ((default-directory dir))
-    (shell-command "cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES"))
+    (shell-command "cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES"))
   (let ((default-directory dir))
-    (shell-command "ln -svf Debug/compile_commands.json ."))
+    (shell-command "ln -svf Build/compile_commands.json ."))
   (message "compile_commands.json created by cmake"))
 
 (defun wen-ccls-create-compile-json-makefile (dir)
