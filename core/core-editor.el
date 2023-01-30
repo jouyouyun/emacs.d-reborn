@@ -499,6 +499,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
                                 `([,(cdr char-regexp) 0 font-shape-gstring]))))
       ))
 
+;; large file
+(wen-require-package 'vlf)
+(require 'vlf-setup)
+
 (provide 'core-editor)
 
 ;;; core-editor.el ends here
