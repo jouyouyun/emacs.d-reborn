@@ -8,6 +8,8 @@
 (require 'module-c)
 ;; (require 'module-graphviz)
 (require 'module-plantuml)
+(require 'module-d2)
+(require 'module-mermaid)
 (require 'module-webdev)
 (require 'module-hugo)
 ;; (require 'module-caldav)
