@@ -20,7 +20,7 @@
 ;; add configuration's directories to `load-path'
 (add-to-list 'load-path config-pkgs-dir)
 
-(require 'cl)
+(require 'cl-lib)
 (require 'package)
 ;; set package-user-dir to be relative install path
 (setq package-user-dir (expand-file-name "elpa" config-dir))

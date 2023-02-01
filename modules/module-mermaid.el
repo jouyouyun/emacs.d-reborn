@@ -20,6 +20,10 @@
   ;; mermaid-mode
   (message "enable mermaid-mode")
   (require 'mermaid-mode)
+  (add-to-list 'auto-mode-alist '("\\.mmdc\\'" . mermaid-mode))
+  (add-to-list 'auto-mode-alist '("\\.mermaid\\'" . mermaid-mode))
+  ;; Integration with org-mode
+  (add-to-list 'org-src-lang-modes '("mermaid" . mermaid))
   ;; ob-mermaid enables Org-Babel support for evaluating mermaid code
   (use-package org
     :after ob-mermaid

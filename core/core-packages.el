@@ -8,19 +8,21 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 (require 'package)
 
 ;; sets up package repositories
 ;; repository help: https://mirror.tuna.tsinghua.edu.cn/help/elpa/
-(setq package-archives '(
-                         ("gnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;; (setq package-archives '(
-;;                          ("gnu" . "https://elpa.zilongshanren.com/gnu/")
-;;                          ("melpa" . "https://elpa.zilongshanren.com/melpa/")
-;;                          ("org" . "https://elpa.zilongshanren.com/org/")))
+;;                          ("gnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;                          ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;;                          ("org" .  "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+
+;; https://github.com/d12frosted/elpa-mirror
+(setq package-archives
+      '(("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/")
+        ("org"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/org/")
+        ("gnu"   . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/gnu/")))
 
 ;; set package-user-dir to be relative install path
 (setq package-user-dir (expand-file-name "elpa" config-dir))

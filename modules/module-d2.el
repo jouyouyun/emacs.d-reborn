@@ -19,6 +19,9 @@
   ;; d2-mode
   (message "enable d2-mode")
   (require 'd2-mode)
+  (add-to-list 'auto-mode-alist '("\\.d2\\'" . d2-mode))
+  ;; Integration with org-mode
+  (add-to-list 'org-src-lang-modes '("d2" . d2))
   ;; ob-d2 enables Org-Babel support for evaluating d2 code
   ;; not found in elpa mirror
   ;;(use-package org
