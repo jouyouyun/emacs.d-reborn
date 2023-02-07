@@ -72,6 +72,8 @@
 
 (global-set-key (kbd "M-;") 'improve-comment-dwim-line)
 
+(setq create-lockfiles nil)
+
 ;; Death to the tabs!  However, tabs historically indent to the next
 ;; 8-character offset; specifying anything else will cause *mass*
 ;; confusion, as it will change the appearance of every existing file.
@@ -82,12 +84,38 @@
 ;; indentation width -- eg. c-basic-offset: use that to adjust your
 ;; personal indentation width, while maintaining the style (and
 ;; meaning) of any files you load.
-(setq-default tab-width 4
-              inhibit-splash-screen t
-              initial-scratch-message nil
-              sentence-end-double-space nil
-              indent-tabs-mode nil)
-(setq create-lockfiles nil)
+;; Two callable functions for enabling/disabling tabs in Emacs
+(defun wen-disable-tabs ()
+  (interactive)
+  (setq indent-tabs-mode nil))
+
+(defun wen-enable-tabs ()
+  (interactive)
+  ;; (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  ;; default tab width
+  (setq tab-width 4
+        inhibit-splash-screen t
+        initial-scratch-message nil
+        sentence-end-double-space nil
+        ;; disable indent for previous line
+        electric-indent-inhibit t
+        ;; delete tab method
+        backward-delete-char-untabify-method nil
+        ;; backward-delete-char-untabify-method 'hungry
+        ))
+
+;; default enabled tab mode
+(wen-enable-tabs)
+
+;; set tab color
+(global-whitespace-mode)
+(setq whitespace-style '(face tabs tab-mark trailing))
+(custom-set-faces
+ '(whitespace-tab ((t (:foreground "#9999CC")))))
+
+(setq whitespace-display-mappings
+      '((tab-mark 9 [124 9] [92 9])))
 
 (use-package smart-tab
   :config

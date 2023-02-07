@@ -10,23 +10,25 @@
 
 (defun wen-c-common-defaults ()
   (interactive)
-  (setq c-basic-offset 2
+  (setq c-default-style "linux"
+        ;; c-basic-offset 4
         ;; tab-width 4
         ;; indent-tabs-mode t
-        c-default-style "linux"
         ;; for tab backward hitting from 4->1
-        backward-delete-char-untabify-method nil)
+        ;; backward-delete-char-untabify-method nil
+        )
   ;; (c-set-offset 'substatement-open 1)
   )
 
 (defun wen-cpp-common-defaults ()
   (interactive)
-  (setq cpp-basic-offset 2
+  (setq cpp-default-style "linux"
         ;; tab-width 4
         ;; indent-tabs-mode t
-        cpp-default-style "linux"
+        ;; cpp-basic-offset 4
         ;; for tab backward hitting from 4->1
-        backward-delete-char-untabify-method nil)
+        ;; backward-delete-char-untabify-method nil
+        )
   ;; (c-set-offset 'substatement-open 1)
   )
 

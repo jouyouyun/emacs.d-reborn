@@ -17,6 +17,8 @@
   (lsp-keep-workspace-alive t)
   (lsp-enable-xref t)
   (lsp-enable-imenu t)
+  ;; disable lsp indent
+  ;; (lsp-enable-indentation nil)
   :config
   (add-hook 'go-mode-hook #'lsp)
   (add-hook 'python-mode-hook #'lsp)
@@ -30,7 +32,7 @@
   (add-hook 'yaml-mode-hook #'lsp)
   (add-hook 'dockerfile-mode-hook #'lsp)
   (add-hook 'shell-mode-hook #'lsp)
-  (add-hook 'css-mode-hook #'lsp)  
+  (add-hook 'css-mode-hook #'lsp)
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
@@ -45,7 +47,7 @@
   :custom-face
   ;; (lsp-ui-doc-background ((t (:background ni))))
   :init (setq lsp-ui-doc-enable t
-              lsp-ui-doc-include-signature t               
+              lsp-ui-doc-include-signature t
 
               lsp-enable-snippet nil
               lsp-ui-sideline-enable nil
