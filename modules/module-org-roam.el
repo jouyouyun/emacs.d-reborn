@@ -10,6 +10,31 @@
 
 (wen-require-packages '(org-roam org-roam-ui org-download org-ref))
 
+(defvar config-roam-db-dir (expand-file-name "roam-db" config-dir)
+  "Org Roam db directory.")
+(unless (file-exists-p config-roam-db-dir)
+  (make-directory config-roam-db-dir))
+
+;; fixed ox-hugo export md error: unable to resolve link
+;; (require 'find-lisp)
+
+(defun wen-roam-set-directory (dir)
+  (setq wen-db-name (replace-regexp-in-string "/" "" dir))
+  (setq wen-db-name (concat wen-db-name ".db"))
+  (message "Switch roam directory to %s" dir)
+  (setq org-roam-directory dir)
+  (message "Set roam db to %s" (expand-file-name wen-db-name config-roam-db-dir))
+  (setq org-roam-db-location (expand-file-name wen-db-name config-roam-db-dir))
+  ;; fixed ox-hugo export md error: unable to resolve link
+  ;; (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
+  )
+
+(defun wen-roam-switch ()
+  (interactive)
+  (wen-roam-set-directory (read-directory-name
+                           "Org Roam directory:" default-directory))
+  )
+
 (use-package org-roam
   :ensure t
   ;; :custom
@@ -32,6 +57,8 @@
                                       :target (file+head "${slug}.org"
                                                          "#+title: ${title}\n")
                                       :unnarrowed t)))
+  ;; default roam dir
+  (wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
   (org-roam-db-autosync-mode)
   (setq org-roam-db-gc-threshold 50000000)
   ;; If using org-roam-protocol
@@ -49,34 +76,6 @@
                               "#+title: ${title}\n")
            :unnarrowed t)
           )))
-
-(defvar config-roam-db-dir (expand-file-name "roam-db" config-dir)
-  "Org Roam db directory.")
-(unless (file-exists-p config-roam-db-dir)
-  (make-directory config-roam-db-dir))
-
-;; fixed ox-hugo export md error: unable to resolve link
-;; (require 'find-lisp)
-
-(defun wen-roam-set-directory (dir)
-  (setq wen-db-name (replace-regexp-in-string "/" "" dir))
-  (setq wen-db-name (concat wen-db-name ".db"))
-  (message "Switch roam directory to %s" dir)
-  (setq org-roam-directory dir)
-  (message "Set roam db to %s" (expand-file-name wen-db-name config-roam-db-dir))
-  (setq org-roam-db-location (expand-file-name wen-db-name config-roam-db-dir))
-  ;; fixed ox-hugo export md error: unable to resolve link
-  ;; (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
-  )
-
-;; default roam dir
-(wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
-
-(defun wen-roam-switch ()
-  (interactive)
-  (wen-roam-set-directory (read-directory-name
-                           "Org Roam directory:" default-directory))
-  )
 
 (global-set-key (kbd "C-c n p") 'wen-roam-switch)
 
