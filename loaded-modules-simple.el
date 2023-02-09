@@ -2,6 +2,7 @@
 ;; (setq wen-module-lsp-frame "lsp-bridge")
 
 (require 'module-org-roam)
+(require 'module-obsidian)
 (require 'module-git)
 (require 'module-gtags)
 (require 'module-company)

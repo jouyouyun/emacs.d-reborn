@@ -15,3 +15,4 @@ tramp
 abbrev_defs
 .org-id-locations
 roam-db
+/elgrep-data.el
