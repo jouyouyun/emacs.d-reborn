@@ -279,6 +279,19 @@
            cal-china-x-general-holidays
            ))
 
+;; For Logseq
+(use-package org-protocol
+  :ensure org
+  :config
+  (add-to-list 'org-protocol-protocol-alist
+               '("org-find-file" :protocol "find-file" :function org-protocol-find-file :kill-client nil))
+  (defun org-protocol-find-file (fname)
+    "Process org-protocol://find-file?path= style URL."
+    (let ((f (plist-get (org-protocol-parse-parameters fname nil '(:path)) :path)))
+      (find-file f)
+      (raise-frame)
+      (select-frame-set-input-focus (selected-frame)))))
+
 (provide 'core-org)
 
 ;;; core-org.el ends here
