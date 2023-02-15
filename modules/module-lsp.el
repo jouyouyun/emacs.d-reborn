@@ -171,9 +171,11 @@
                 ;; (setq lsp-latex-texlab-executable-argument-list '("-vvvv" "--log-file" "/tmp/texlab.log"))
                 (setq lsp-latex-build-executable "lualatex") ;; why not work, still use 'latexmk'? Now add the file '~/.latexmkrc'
                 (setq lsp-latex-build-args '("-lualatex" "-interaction=nonstopmode" "--shell-escape" "-synctex=1" "%f")))))
-  ;; (when (version< emacs-version "28.2")
+  ;; if emacs not build with json, commentted the next line
+  (when (version< emacs-version "28.2")
+    (message "replace 'json-serialize' with 'json-encode'")
     (advice-add #'json-serialize :before-until #'advice-json-serialize)
-  ;; )
+  )
   (setq lsp-tex-server 'texlab))
 
 (when wen-module-tex-server
