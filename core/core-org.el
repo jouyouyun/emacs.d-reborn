@@ -292,6 +292,32 @@
       (raise-frame)
       (select-frame-set-input-focus (selected-frame)))))
 
+;; org-todo 中设置 scheduled 和 deadline 时，日期中的 week 会根据系统语言本地化。
+;; 这会导致这些日期在不同的语言环境下会不生效，也不被 logseq 识别。
+;; 所以应始终保持 week 为英文。
+;; 解决方案来于：https://kisaragi-hiu.com/blog/2019-10-09-format-time-string-today.html 。
+(defun wen-org-week-english-show (&optional time zone abbreviated)
+  "Return abbreviated name of the day of week at time and zone.
+
+if time or zone is nul, use `current-time' or `current-time-zone'."
+  (unless time (setq time (current-time)))
+  (unless zone (setq zone (current-time-zone)))
+  (calendar-day-name
+   (pcase-let ((`(,_ ,_ ,_ ,d ,m ,y . ,_)
+                (decode-time time zone)))
+     (list m d y))
+   abbreviated))
+(defun wen-org-week-advice-format-time-string (func format &optional time zone)
+  "Pass FORMAT, TIME, and ZONE to FUNC.
+
+Replace \"%A\" in FORMAT with English day of week of today, \"%a\" with the abbreviated version."
+  (let* ((format (replace-regexp-in-string "%a" (wen-org-week-english-show time zone t)
+                                           format))
+         (format (replace-regexp-in-string "%A" (wen-org-week-english-show time zone nil)
+                                           format)))
+    (funcall func format time zone)))
+(advice-add 'format-time-string :around #'wen-org-week-advice-format-time-string)
+
 (provide 'core-org)
 
 ;;; core-org.el ends here
