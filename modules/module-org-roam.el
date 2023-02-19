@@ -1,5 +1,7 @@
 ;;; module-org-roam --- org-roam configurations.
 ;;
+;; 为了支持 Logseq，node 全部放在 pages 下，日记则在 journals 下
+;;
 ;; Author: jouyouyun <jouyouwen717@gmail.com>
 
 ;;; Commentary
@@ -23,10 +25,16 @@
   (setq wen-db-name (concat wen-db-name ".db"))
   (message "Switch roam directory to %s" dir)
   (setq org-roam-directory dir)
+  ;; (setq org-roam-dailies-directory "journals/")
+  ;; 忽略 logseq 配置目录
+  (setq org-roam-file-exclude-regexp
+        (concat "^" (expand-file-name dir) "/logseq/"))
   (message "Set roam db to %s" (expand-file-name wen-db-name config-roam-db-dir))
   (setq org-roam-db-location (expand-file-name wen-db-name config-roam-db-dir))
   ;; fixed ox-hugo export md error: unable to resolve link
   ;; (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
+  ;; 定义 agenda 文件的位置
+  (setq org-agenda-files (list (expand-file-name "pages" dir)))
   )
 
 (defun wen-roam-switch ()
@@ -52,30 +60,37 @@
   :config
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (setq org-roam-capture-templates '(
-                                     ("d" "default" plain "%?"
-                                      :target (file+head "${slug}.org"
-                                                         "#+title: ${title}\n")
-                                      :unnarrowed t)))
   ;; default roam dir
-  (wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
   (org-roam-db-autosync-mode)
   (setq org-roam-db-gc-threshold 50000000)
   ;; If using org-roam-protocol
   ;; (require 'org-roam-protocol)
+  (setq org-roam-capture-templates '(
+                                     ("d" "default" plain "%?"
+                                      :target (file+head "pages/${slug}.org"
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+FILETAGS: :TAG:\n#+ROAM_ALIAS:\n")
+                                      :unnarrowed t)
+                                     ("m" "markdown" plain "%?"
+                                      :target (file+head "pages/${slug}.md"
+                                                         "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
+                                      :unnarrowed t)
+                                     ("t" "Task" entry
+                                      "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:ROAM_ALIASES:\n:END:\n"
+                                      :target (file+head "pages/task.org"
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+FILETAGS: :task:\n#+ROAM_ALIAS: task\n")
+                                      :unnarrowed t)
+                                     ))
   (require 'org-roam-export)
-  ;; (setq org-roam-dailies-directory "daily/")
-  (setq org-roam-dailies-capture-templates '(
-          ;; 设置 capture 模板
-          ("t" "task" plain "%?"
-           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                              "#+title: ${title}\n")
-           :unnarrowed t)
-          ("b" "book reading" plain "%?"
-           :target (file+head "book/%<%Y%m%d%H%M%S>-${slug}.org"
-                              "#+title: ${title}\n")
-           :unnarrowed t)
-          )))
+  ;; (setq org-roam-dailies-directory "journals/")
+  ;; (setq org-roam-dailies-capture-templates
+  ;;       '(("d" "default" entry
+  ;;          "* %?"
+  ;;          :target (file+head "%<%Y-%m-%d>.org"
+  ;;                             "#+title: %<%Y-%m-%d>\n"))))
+  )
+
+;; set default roam dir
+(wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
 
 (global-set-key (kbd "C-c n p") 'wen-roam-switch)
 

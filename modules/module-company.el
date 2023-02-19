@@ -28,6 +28,7 @@
                                                (company-tabnine
                                                 company-dabbrev
                                                 company-keywords
+                                                company-capf
                                                 company-files)
                                                ))
 
@@ -40,6 +41,7 @@
                                                               company-elisp
                                                               company-dabbrev
                                                               company-keywords
+                                                              company-capf
                                                               company-files)
                                                              ))))
 
@@ -52,7 +54,7 @@
   :custom
   (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
   :hook ((org-mode . (lambda ()
-                       (setq-local company-backends '(company-org-block))
+                       (setq-local company-backends '(company-org-block company-capf))
                        (company-mode +1)))))
 
 (when wen-module-lsp-frame

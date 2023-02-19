@@ -93,20 +93,20 @@
   (interactive)
   ;; (local-set-key (kbd "TAB") 'tab-to-tab-stop)
   (setq indent-tabs-mode t)
-  ;; default tab width
-  (setq tab-width 4
-        inhibit-splash-screen t
-        initial-scratch-message nil
-        sentence-end-double-space nil
-        ;; disable indent for previous line
-        electric-indent-inhibit t
-        ;; delete tab method
-        backward-delete-char-untabify-method nil
-        ;; backward-delete-char-untabify-method 'hungry
-        ))
+  )
 
-;; default enabled tab mode
-(wen-enable-tabs)
+;; default tab settings
+(setq-default indent-tabs-mode nil
+              tab-width 4
+              inhibit-splash-screen t
+              initial-scratch-message nil
+              sentence-end-double-space nil
+              ;; disable indent for previous line
+              electric-indent-inhibit t
+              ;; delete tab method
+              backward-delete-char-untabify-method nil
+              ;; backward-delete-char-untabify-method 'hungry
+              )
 
 ;; set tab color
 (global-whitespace-mode)
@@ -470,7 +470,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
     ;; (setq-default neo-show-hidden-files nil)
     ;; (global-set-key [f2] 'neotree-toggle)
     ;; (global-set-key [f8] 'neotree-dir)
-	))
+  ))
 
 (if (not (display-graphic-p))
     (progn

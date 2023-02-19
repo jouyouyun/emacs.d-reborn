@@ -47,7 +47,7 @@
 ;; Disable auto indent
 ;; From: https://www.philnewton.net/blog/electric-indent-with-org-mode/
 (add-hook 'electric-indent-functions
-	  (lambda (x) (when (eq 'org-mode major-mode) 'no-indent)))
+          (lambda (x) (when (eq 'org-mode major-mode) 'no-indent)))
 
 (defun wen-org-inline-css-hook (exporter)
   "Insert custom inline css"
@@ -168,9 +168,9 @@
   "Personal knowledge todo dir.")
 (defvar wen-org-todo-file (expand-file-name "todo.org" wen-org-todo)
   "Personal knowledge todo file.")
+;; 定义 agenda 文件的位置
 (setq org-agenda-files (list wen-org-todo
                              (expand-file-name "Daily" wen-knowledge-repo)))
-;; 定义 agenda 文件的位置
 (setq org-capture-templates
       `(("t" "Task" entry (file wen-org-todo-file)
          "* TODO %?\nCaptured %<%Y-%m-%d %H:%M>")
@@ -195,7 +195,7 @@
 
 (setq org-todo-keywords
       '((type "BUG(B!)" "|" "FIXED(F!)" "FEAT(N!)")
-        (sequence "TODO(t!)" "DOING(g!)" "|" "DONE(d!)" "BLOCKED(b!)" "REVIEW(r!)" "CANCELED(c @/!)")
+        (sequence "TODO(t!)" "DOING(g!)" "WAITING(w!)" "DONE(d!)" "LATER(l!)" "BLOCKED(b!)" "REVIEW(r!)" "CANCELED(c @/!)")
         ))
 
 ;; 设置关键字的字体颜色
@@ -236,8 +236,8 @@
                       (org-agenda-overriding-header "Tasks to Refile")
                       (org-tags-match-list-sublevels nil)))))
 
-              ("N" "Notes" tags "NOTE"
-               ((org-agenda-overriding-header "Notes")
+              ("R" "Read Later" tags "READ"
+               ((org-agenda-overriding-header "Read Later")
                 (org-tags-match-list-sublevels t)))
               )))
 
