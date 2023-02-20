@@ -26,9 +26,6 @@
   (message "Switch roam directory to %s" dir)
   (setq org-roam-directory dir)
   ;; (setq org-roam-dailies-directory "journals/")
-  ;; 忽略 logseq 配置目录
-  (setq org-roam-file-exclude-regexp
-        (concat "^" (expand-file-name dir) "/logseq/"))
   (message "Set roam db to %s" (expand-file-name wen-db-name config-roam-db-dir))
   (setq org-roam-db-location (expand-file-name wen-db-name config-roam-db-dir))
   ;; fixed ox-hugo export md error: unable to resolve link
@@ -91,6 +88,9 @@
 
 ;; set default roam dir
 (wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
+;; 忽略 logseq 配置目录
+(setq-default org-roam-file-exclude-regexp ".*/logseq/bak/.*")
+;; (concat "^" (expand-file-name dir) "/logseq/"))
 
 (global-set-key (kbd "C-c n p") 'wen-roam-switch)
 

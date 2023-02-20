@@ -223,20 +223,22 @@
 (setq org-agenda-custom-commands
       (quote (("C" "Simple agenda view"
                ((tags "PRIORITY=\"A\""
-                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "CANCELED")))
                        (org-agenda-overriding-header "High-priority unfinished tasks:")))
-                (agenda "")
+                (agenda ""
+                        ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "CANCELED")))))
                 (alltodo ""
                          ((org-agenda-skip-function
                            '(org-agenda-skip-entry-if 'scheduled))
+                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "CANCELED")))
                           (org-agenda-overriding-header "Global list of Un-scheduled tasks:")
                           ))
                (tags "REFILE"
-                     ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo '("DONE" "CANCELED")))
                       (org-agenda-overriding-header "Tasks to Refile")
                       (org-tags-match-list-sublevels nil)))))
 
-              ("R" "Read Later" tags "READ"
+              ("R" "Read Later" tags "read"
                ((org-agenda-overriding-header "Read Later")
                 (org-tags-match-list-sublevels t)))
               )))
