@@ -67,10 +67,6 @@
                                       :target (file+head "pages/${slug}.org"
                                                          "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+FILETAGS: :TAG:\n#+ROAM_ALIAS:\n")
                                       :unnarrowed t)
-                                     ("m" "markdown" plain "%?"
-                                      :target (file+head "pages/${slug}.md"
-                                                         "---\ntitle: ${title}\nid: %<%Y-%m-%dT%H%M%S>\ncategory: \n---\n")
-                                      :unnarrowed t)
                                      ("t" "Task" entry
                                       "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:ROAM_ALIASES:\n:END:\n"
                                       :target (file+head "pages/task.org"
