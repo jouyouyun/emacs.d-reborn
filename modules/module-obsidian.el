@@ -16,7 +16,7 @@
   :demand t
   :config
   ;; (obsidian-specify-path wen-knowledge-repo)
-  (obsidian-specify-path "~/Documents/ObNote")
+  (obsidian-specify-path "~/Documents/PersonalKnowledgeGraph/Vault")
   (global-obsidian-mode t)
   :custom
   ;; This directory will be used for `obsidian-capture' if set.
