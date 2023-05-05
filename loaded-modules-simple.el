@@ -14,3 +14,6 @@
 (require 'module-webdev)
 (require 'module-hugo)
 ;; (require 'module-caldav)
+
+(require 'module-ai)
+(setq chatgpt-shell-openai-key "")

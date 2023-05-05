@@ -66,6 +66,7 @@
     volatile-highlights
     operate-on-number
     htmlize
+    gh-md ;; Render markdown using the Github api
     ox-gfm
     ox-mediawiki
     org-preview-html
