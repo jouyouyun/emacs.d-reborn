@@ -15,5 +15,6 @@ tramp
 abbrev_defs
 .org-id-locations
 roam-db
+/org-roam.db
 /elgrep-data.el
 /chatgpt

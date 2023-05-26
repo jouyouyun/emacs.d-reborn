@@ -31,8 +31,8 @@
   ;; fixed ox-hugo export md error: unable to resolve link
   ;; (setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
   ;; 定义 agenda 文件的位置
-  (setq org-agenda-files (list (expand-file-name "pages" dir)))
-  )
+  (setq org-agenda-files (list (expand-file-name "journals" dir)))
+)
 
 (defun wen-roam-switch ()
   (interactive)
@@ -63,30 +63,37 @@
   ;; If using org-roam-protocol
   ;; (require 'org-roam-protocol)
   (setq org-roam-capture-templates '(
-                                     ("d" "default" plain "%?"
+                                     ("p" "Post" plain "%?"
                                       :target (file+head "pages/${slug}.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+FILETAGS: :TAG:\n#+ROAM_ALIAS:\n")
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+DATE: 2023-01-01T10:00:00+08:00\n#+TAGS: tag\n#HUGO_BASE_DIR:\n#+HUGO_SECTION: post\n#+HUGO_CATEGORIES: cate\n#+HUGO_TAGS: tag\n#+HUGO_AUTO_SET_LASTMOD: nil\n#+HUGO_DRAFT: true\n")
                                       :unnarrowed t)
                                      ("t" "Task" entry
-                                      "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:ROAM_ALIASES:\n:END:\n"
-                                      :target (file+head "pages/task.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+FILETAGS: :task:\n#+ROAM_ALIAS: task\n")
+                                      "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:END:\n"
+                                      :target (file+head "journals/task.org"
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
+                                      :unnarrowed t)
+                                     ("d" "Daily" entry
+                                      "*** %<%d>\n%?\n"
+                                      :target (file+head "journals/daily.org"
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
                                       :unnarrowed t)
                                      ))
   (require 'org-roam-export)
   ;; (setq org-roam-dailies-directory "journals/")
   ;; (setq org-roam-dailies-capture-templates
-  ;;       '(("d" "default" entry
-  ;;          "* %?"
-  ;;          :target (file+head "%<%Y-%m-%d>.org"
-  ;;                             "#+title: %<%Y-%m-%d>\n"))))
+  ;;       '("d" "Daily" entry
+  ;;         "* %?"
+  ;;         :target (file+head "%<%Y-%m-%d>.org"
+  ;;                            "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: %<%Y-%m-%d>\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
+  ;;         :unnarrowed t))
   )
 
 ;; set default roam dir
-(wen-roam-set-directory (expand-file-name  "KnowledgeBase" wen-knowledge-repo))
+(wen-roam-set-directory (expand-file-name  "daily-in-org-roam" wen-daily-sync-repo))
 ;; 忽略 logseq 配置目录
-(setq-default org-roam-file-exclude-regexp ".*/logseq/bak/.*")
-;; (concat "^" (expand-file-name dir) "/logseq/"))
+(setq org-roam-file-exclude-regexp ".*_archived.org"
+      ;; (concat "^" (expand-file-name org-roam-directory) "/archived/")
+)
 
 (global-set-key (kbd "C-c n p") 'wen-roam-switch)
 
@@ -104,59 +111,6 @@
         org-roam-ui-follow nil
         org-roam-ui-update-on-save nil
         org-roam-ui-open-on-start nil))
-
-;; Roam publish
-(defun wen-roam-sitemap (title list)
-  (message "Generate siemap %s - %s:" title list)
-  (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
-          "#+TITLE: " title "\n\n"
-          (org-list-to-org list) "\nfile:sitemap.svg"))
-
-(setq wen-publish-time 0) ;; see the next section for context
-(defun wen-roam-publication-wrapper (plist filename pubdir)
-  (org-roam-graph)
-  (org-html-publish-to-html plist filename pubdir)
-  (setq wen-publish-time (cadr (current-time))))
-
-(defun wen-org-roam-custom-link-builder (node)
-  (let ((file (org-roam-node-file node)))
-    (concat (file-name-base file) ".html")))
-
-(defun wen-roam-export (dir)
-  (unless (file-exists-p dir)
-    (make-directory dir))
-  (setq pubdir (replace-regexp-in-string "/" "-" dir))
-  (setq pubdir (concat "pages" pubdir))
-  (setq pubdir (expand-file-name pubdir "/tmp"))
-  (unless (file-exists-p pubdir)
-    (make-directory pubdir))
-  (message "Will export '%s' to '%s'" dir pubdir)
-  (setq org-publish-project-alist
-        '(("roam"
-           :base-directory "~/Downloads/Tmp/Note"
-           :auto-sitemap t
-           :sitemap-function wen-roam-sitemap
-           :sitemap-title "Roam notes"
-           :publishing-function wen-roam-publication-wrapper
-           :publishing-directory "/tmp/shm/tmp"
-           :section-number nil
-           :table-of-contents nil
-           )))
-  ;; override the default link creation function
-  (setq org-roam-graph-link-builder 'wen-org-roam-custom-link-builder)
-  ;; copying the generated file to the export dir
-  ;; depends: graphviz
-  (add-hook 'org-roam-graph-generation-hook
-            (lambda (dot svg) (if (< (- (cadr (current-time)) wen-publish-time) 5)
-                                  (progn (copy-file svg (expand-file-name "sitemap.svg" "/tmp/shm/tmp/") 't)
-                                         (kill-buffer (file-name-nondirectory svg))
-                                         (setq wen-publish-time 0)))))
-  )
-
-(defun wen-roam-publish-switch ()
-  (interactive)
-  (wen-roam-export (read-directory-name
-                    "Org Roam Export Dir:" default-directory)))
 
 (provide 'module-org-roam)
 

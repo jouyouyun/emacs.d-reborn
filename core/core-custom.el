@@ -78,6 +78,11 @@ Only modes that don't derive from `prog-mode' should be listed here."
   :type 'string
   :group 'wen)
 
+(defcustom wen-daily-sync-repo "~/Documents/daily-sync-repo"
+  "The default documents sync repo dir."
+  :type 'string
+  :group 'wen)
+
 (provide 'core-custom)
 
 ;;; core-custom.el ends here
