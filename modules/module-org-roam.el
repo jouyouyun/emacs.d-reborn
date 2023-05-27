@@ -56,7 +56,7 @@
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:100}" 'face 'org-tag)))
   ;; default roam dir
   (org-roam-db-autosync-mode)
   (setq org-roam-db-gc-threshold 50000000)
@@ -64,18 +64,18 @@
   ;; (require 'org-roam-protocol)
   (setq org-roam-capture-templates '(
                                      ("p" "Post" plain "%?"
-                                      :target (file+head "pages/${slug}.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+DATE: 2023-01-01T10:00:00+08:00\n#+TAGS: tag\n#HUGO_BASE_DIR:\n#+HUGO_SECTION: post\n#+HUGO_CATEGORIES: cate\n#+HUGO_TAGS: tag\n#+HUGO_AUTO_SET_LASTMOD: nil\n#+HUGO_DRAFT: true\n")
+                                      :target (file+head "pages/${title}.org"
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+DATE: 2023-01-01T10:00:00+08:00\n#+FILETAGS: tag\n#+HUGO_BASE_DIR: blog-with-hugo\n#+HUGO_SECTION: post\n#+HUGO_CATEGORIES: cate\n#+HUGO_TAGS: tag\n#+HUGO_AUTO_SET_LASTMOD: nil\n#+HUGO_DRAFT: false\n")
                                       :unnarrowed t)
                                      ("t" "Task" entry
                                       "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:END:\n"
                                       :target (file+head "journals/task.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+FILETAGS: task\n")
                                       :unnarrowed t)
                                      ("d" "Daily" entry
                                       "*** %<%d>\n%?\n"
                                       :target (file+head "journals/daily.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Task Management\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: Daily\n#+FILETAGS: daily\n")
                                       :unnarrowed t)
                                      ))
   (require 'org-roam-export)
@@ -84,7 +84,7 @@
   ;;       '("d" "Daily" entry
   ;;         "* %?"
   ;;         :target (file+head "%<%Y-%m-%d>.org"
-  ;;                            "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: %<%Y-%m-%d>\n#+TAGS: task\n#+ROAM_ALIAS: task\n")
+  ;;                            "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: %<%Y-%m-%d>\n#+FILETAGS: journal\n")
   ;;         :unnarrowed t))
   )
 
