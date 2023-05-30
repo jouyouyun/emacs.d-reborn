@@ -216,7 +216,6 @@
 
 ;; Change task state to STARTED when clocking in
 (setq org-clock-in-switch-to-state "DOING")
-
 (setq org-clock-out-switch-to-state "DONE")
 
 ;; http://linzhichu.github.io/computers/2018/02/28/org-agenda
