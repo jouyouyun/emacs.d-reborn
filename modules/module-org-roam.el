@@ -65,7 +65,7 @@
   (setq org-roam-capture-templates '(
                                      ("p" "Post" plain "%?"
                                       :target (file+head "pages/${title}.org"
-                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+DATE: 2023-01-01T10:00:00+08:00\n#+FILETAGS: tag\n#+HUGO_BASE_DIR: /Data/Projects/Private/blog-with-hugo\n#+HUGO_SECTION: post\n#+HUGO_CATEGORIES: cate\n#+HUGO_TAGS: tag\n#+HUGO_AUTO_SET_LASTMOD: nil\n#+HUGO_DRAFT: false\n")
+                                                         "#+OPTIONS: author:jouyouyun timestamp:nil ^:nil <:nil p:t prop:t tags:t tasks:t todo:t\n#+TITLE: ${title}\n#+DATE: %<%Y-%m-%dT%H:%M:%S+08:00>\n#+FILETAGS: tag\n#+HUGO_BASE_DIR: /Data/Projects/Private/blog-with-hugo\n#+HUGO_SECTION: post\n#+HUGO_CATEGORIES: cate\n#+HUGO_TAGS: tag\n#+HUGO_AUTO_SET_LASTMOD: nil\n#+HUGO_DRAFT: false\n")
                                       :unnarrowed t)
                                      ("t" "Task" entry
                                       "* TODO [#B] ${title}%? :TAGS:\n:PROPERTIES:\n:END:\n"
