@@ -9,7 +9,7 @@
 ;;; Code:
 
 ;; org babel: #+begin_src chatgpt-shell #+end_src
-(wen-require-packages '(chatgpt-shell))
+(wen-require-packages '(shell-maker chatgpt-shell))
 
 (use-package chatgpt-shell
   :ensure t

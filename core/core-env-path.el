@@ -10,7 +10,8 @@
 (wen-require-packages '(exec-path-from-shell))
 
 (require 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
+(when (daemonp)
+  (exec-path-from-shell-initialize))
 
 (provide 'core-env-path)
 
