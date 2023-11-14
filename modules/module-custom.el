@@ -56,6 +56,11 @@
   :type 'string
   :group 'wen-module)
 
+(defcustom wen-module-obsidian-repo ""
+  "The obsidian default vault path."
+  :type 'string
+  :group 'wen-module)
+
 (provide 'module-custom)
 
 ;;; module-custom.el ends here

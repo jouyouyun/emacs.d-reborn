@@ -11,14 +11,14 @@ if [ -z $GOPATH ]; then
     exit -1
 fi
 
-echo "Will install binaries..."
+echo "Will get -u -v binaries..."
 
-env GO111MODULE="auto" go install golang.org/x/tools/gopls@latest
-env GO111MODULE="auto" go install golang.org/x/tools/cmd/goimports@latest
-env GO111MODULE="auto" go install golang.org/x/tools/cmd/gorename@latest
-env GO111MODULE="auto" go install golang.org/x/tools/cmd/guru@latest
-env GO111MODULE="auto" go install golang.org/x/lint/golint@latest
-env GO111MODULE="auto" go install github.com/go-delve/delve/cmd/dlv@latest
+env GO111MODULE="auto" go get -u -v golang.org/x/tools/gopls
+env GO111MODULE="auto" go get -u -v golang.org/x/tools/cmd/goimports
+env GO111MODULE="auto" go get -u -v golang.org/x/tools/cmd/gorename
+env GO111MODULE="auto" go get -u -v golang.org/x/tools/cmd/guru
+env GO111MODULE="auto" go get -u -v golang.org/x/lint/golint
+env GO111MODULE="auto" go get -u -v github.com/go-delve/delve/cmd/dlv
 
 # go get -u -v github.com/klauspost/asmfmt/cmd/asmfmt
 # go get -u -v github.com/kisielk/errcheck

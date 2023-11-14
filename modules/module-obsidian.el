@@ -15,12 +15,11 @@
   :ensure t
   :demand t
   :config
-  ;; (obsidian-specify-path wen-knowledge-repo)
-  (obsidian-specify-path "~/Documents/PersonalKnowledgeGraph/Vault")
+  (obsidian-specify-path wen-module-obsidian-repo)
   (global-obsidian-mode t)
   :custom
   ;; This directory will be used for `obsidian-capture' if set.
-  (obsidian-inbox-directory "Todo")
+  (obsidian-inbox-directory "Tasks")
   :bind (:map obsidian-mode-map
               ;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
               ("C-c C-o" . obsidian-follow-link-at-point)
