@@ -38,6 +38,9 @@
     ace-window
     ag
     avy
+    marginalia
+    embark
+    embark-consult
     anzu
     guru-mode ;; disables some common keybindings and suggests the use of the established Emacs alternatives instead.
     crux ;; a few useful interactive commands. TODO(jouyouyun): learn it.
