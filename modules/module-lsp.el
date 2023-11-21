@@ -121,6 +121,8 @@
 (lsp-register-custom-settings
  '(("gopls.completeUnimported" t t)
    ("gopls.staticcheck" t t)))
+;; fix 'https://github.com/emacs-lsp/lsp-mode/issues/4225'
+(setq lsp-go-server-path "gopls")
 
 ;; ccls
 (defun wen-lsp-ccls()

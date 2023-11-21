@@ -19,6 +19,10 @@ env GO111MODULE="auto" go get -u -v golang.org/x/tools/cmd/gorename
 env GO111MODULE="auto" go get -u -v golang.org/x/tools/cmd/guru
 env GO111MODULE="auto" go get -u -v golang.org/x/lint/golint
 env GO111MODULE="auto" go get -u -v github.com/go-delve/delve/cmd/dlv
+env GO111MODULE="auto" go get -u -v github.com/jstemmer/gotags
+env GO111MODULE="auto" go get -u -v github.com/rogpeppe/godef
+env GO111MODULE="auto" go get -u -v github.com/zmb3/gogetdoc
+env GO111MODULE="auto" go get -u -v github.com/fatih/gomodifytags
 
 # go get -u -v github.com/klauspost/asmfmt/cmd/asmfmt
 # go get -u -v github.com/kisielk/errcheck
