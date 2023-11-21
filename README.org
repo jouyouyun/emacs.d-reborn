@@ -79,6 +79,10 @@
 
 把 =loaded-modules-simple.el= 复制到 =personal/= 下，并重命名为 =loaded-modules.el= 。
 
+*** 链接 pyim
+
+=ln -svf ~/.emacs.d/pyim ~/.local/share/=
+
 *** 定制 custom.el
 
 + =wen-frontend=

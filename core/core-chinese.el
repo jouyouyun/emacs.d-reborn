@@ -58,8 +58,9 @@
 ;; (require 'pyim-dict)
 ;; (require 'pyim-dict-manager)
 (setq pyim-dicts
-      '((:name "compute noun" :file "/Data/Projects/Private/emacs.d-reborn/pyim/dict/compute_noun.pyim")
-        (:name "compute words" :file "/Data/Projects/Private/emacs.d-reborn/pyim/dict/compute_words.pyim")))
+      '((:name "tsinghua" :file "~/.local/share/pyim/dict/pyim-tsinghua-dict.pyim")
+        (:name "compute noun" :file "~/.local/share/pyim/dict/compute_noun.pyim")
+        (:name "compute words" :file "~/.local/share/pyim/dict/compute_words.pyim")))
 
 ;; 让 Emacs 启动时自动加载 pyim 词库
 (add-hook 'emacs-startup-hook
