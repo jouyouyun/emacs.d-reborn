@@ -89,9 +89,13 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-c C-s") 'mc/skip-to-next-like-this)
 
-;; popup-kill-ring
-(require 'popup-kill-ring)
-(global-set-key (kbd "M-y") 'popup-kill-ring)
+(require 'ace-popup-menu)
+(ace-popup-menu-mode 1)
+(setq ace-popup-menu-show-pane-header t)
+
+;; browse-kill-ring
+(require 'browse-kill-ring)
+(global-set-key (kbd "M-y") 'browse-kill-ring)
 
 (require 'whole-line-or-region)
 ;; Comment or uncomment

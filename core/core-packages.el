@@ -46,7 +46,9 @@
     crux ;; a few useful interactive commands. TODO(jouyouyun): learn it.
     editorconfig
     multiple-cursors
-    popup-kill-ring
+    ace-popup-menu
+    browse-kill-ring
+    popup
     whole-line-or-region
     expand-region
     easy-kill ;; TODO(jouyouyun): learn it
