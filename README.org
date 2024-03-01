@@ -66,6 +66,10 @@
 
   =plantuml= 画图
 
++ =trans=
+
+  immersive-translate backend, =wget git.io/trans=
+
 --------
 -------
 

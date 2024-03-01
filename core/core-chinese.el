@@ -71,11 +71,13 @@
 ;; (global-set-key (kbd "C-;") 'pyim-delete-word-from-personal-buffer)
 
 
-;; translation by youdao
-(wen-require-package 'youdao-dictionary)
-;; Enable Cache
-(setq url-automatic-caching t)
-(global-set-key (kbd "C-c M-\\") 'youdao-dictionary-search-at-point+)
+;; translation by google translate
+(wen-require-package 'google-translate)
+(require 'google-translate)
+(require 'google-translate-default-ui)
+(setq google-translate-default-source-language "auto")
+(setq google-translate-default-target-language "zh")
+(global-set-key (kbd "C-c M-\\") 'google-translate-at-point)
 
 (provide 'core-chinese)
 
