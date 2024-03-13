@@ -43,14 +43,14 @@
 ;; complete filename replace hippie-expand
 (global-set-key (kbd "M-/") 'company-files)
 
-;; org-block
+;; org-mode and org-block complete
 ;; insert org block complete, prefix '<'
 (use-package company-org-block
   :ensure t
   :custom
   (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
   :hook ((org-mode . (lambda ()
-                       (setq-local company-backends '(company-org-block))
+                       (setq-local company-backends '(company-dabbrev company-keywords company-capf company-files company-org-block))
                        (company-mode +1)))))
 
 (when wen-module-lsp-frame
