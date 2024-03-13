@@ -7,7 +7,7 @@
 ;; This file sets up completion by company and lsp.
 
 ;;; Code:
-(wen-require-packages '(company company-org-block company-tabnine))
+(wen-require-packages '(company company-org-block company-box))
 
 ;; Enable 'company-fuzzy' if needed
 
@@ -23,38 +23,34 @@
 (add-hook 'after-init-hook 'global-company-mode)
 ;; (global-company-mode 1)
 
+;; show icons
+(use-package company-box
+  :ensure t
+  :if window-system
+  :hook (company-mode . company-box-mode))
+
 ;; Customize company backends.
 (set (make-local-variable 'company-backends) '(
-                                               (company-tabnine
-                                                company-dabbrev
+                                               (company-dabbrev
                                                 company-keywords
                                                 company-capf
                                                 company-files)
                                                ))
 
-;; Add `company-elisp' backend for elisp.
-(add-hook 'emacs-lisp-mode-hook
-          #'(lambda ()
-              (require 'company-elisp)
-              (set (make-local-variable 'company-backends) '(
-                                                             (company-tabnine
-                                                              company-elisp
-                                                              company-dabbrev
-                                                              company-keywords
-                                                              company-capf
-                                                              company-files)
-                                                             ))))
-
 ;; Remove duplicate candidate.
 (add-to-list 'company-transformers #'delete-dups)
 
+;; complete filename replace hippie-expand
+(global-set-key (kbd "M-/") 'company-files)
+
 ;; org-block
+;; insert org block complete, prefix '<'
 (use-package company-org-block
   :ensure t
   :custom
   (company-org-block-edit-style 'auto) ;; 'auto, 'prompt, or 'inline
   :hook ((org-mode . (lambda ()
-                       (setq-local company-backends '(company-org-block company-capf))
+                       (setq-local company-backends '(company-org-block))
                        (company-mode +1)))))
 
 (when wen-module-lsp-frame
@@ -62,6 +58,13 @@
   (if (equal wen-module-lsp-frame "lsp")
       (require 'module-lsp)
     (require 'module-lsp-bridge)))
+
+;; company-tabnine cost high cpu
+;; company-tabnine-install-binary
+;;(wen-require-packages '(company-tabnine))
+;;(use-package company-tabnine
+;;  :ensure t
+;;  :init (add-to-list 'company-backends #'company-tabnine))
 
 (provide 'module-company)
 

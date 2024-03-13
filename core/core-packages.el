@@ -27,6 +27,9 @@
 ;; set package-user-dir to be relative install path
 (setq package-user-dir (expand-file-name "elpa" config-dir))
 
+;; fix: Package ‘spinner-1.7.3’ is unavailable
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Must initialize package firstly
 ;; If you don't want it, just comment it.
 (package-initialize)
@@ -35,12 +38,13 @@
 (defvar preloaded-packages
   '(epl
     use-package
+    gnu-elpa-keyring-update ;; updates the GPG keys used by the ELPA package manager
     ace-window
     ag
     avy
-    marginalia
-    embark
-    embark-consult
+    ;;marginalia
+    ;;embark
+    ;;embark-consult
     anzu
     guru-mode ;; disables some common keybindings and suggests the use of the established Emacs alternatives instead.
     crux ;; a few useful interactive commands. TODO(jouyouyun): learn it.
