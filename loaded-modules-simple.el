@@ -1,7 +1,8 @@
 (require 'module-custom)
 ;; (setq wen-module-lsp-frame "lsp-bridge")
+(setq wen-module-obsidian-repo "~/Documents/Vaults/Work/")
 
-(require 'module-org-roam)
+;; (require 'module-org-roam)
 (require 'module-obsidian)
 (require 'module-git)
 (require 'module-gtags)
@@ -13,7 +14,4 @@
 (require 'module-mermaid)
 (require 'module-webdev)
 (require 'module-hugo)
-;; (require 'module-caldav)
-
 (require 'module-ai)
-(setq chatgpt-shell-openai-key "")

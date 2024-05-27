@@ -20,3 +20,4 @@ roam-db
 /chatgpt
 /eln-cache
 /elgrep-data.el*
+/ellama-sessions
