@@ -1,10 +1,10 @@
-;;; module-ai --- AI configurations
+;;; module-ellama --- Ellama configurations
 ;;
 ;; Author: jouyouyun <jouyouwen717@gmail.com>
 
 ;;; Commentary
 ;;
-;; This file sets up dot by ai.
+;; This file sets up dot by ellama.
 
 ;;; Code:
 
@@ -33,6 +33,6 @@
                                        :chat-model wen-module-ai-chat-model
                                        :embedding-model wen-module-ai-embedding-model)))
 
-(provide 'module-ai)
+(provide 'module-ellama)
 
-;;; module-ai.el ends here
+;;; module-ellama.el ends here

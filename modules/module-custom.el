@@ -71,6 +71,11 @@
   :type 'string
   :group 'wen-module)
 
+(defcustom wen-module-openai-key ""
+  "The openai secret key."
+  :type 'string
+  :group 'wen-module)
+
 (provide 'module-custom)
 
 ;;; module-custom.el ends here

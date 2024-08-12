@@ -16,7 +16,11 @@
 (setq package-archives '(
                          ("gnu"      . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("org"      . "https://orgmode.org/elpa/")))
+                         ("org"      . "https://orgmode.org/elpa/")
+                         ("jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/")))
+;; set priority
+(setq package-archive-priorities '(("melpa"    . 5)
+                                   ("jcs-elpa" . 0)))
 
 ;; https://github.com/d12frosted/elpa-mirror
 ;; (setq package-archives

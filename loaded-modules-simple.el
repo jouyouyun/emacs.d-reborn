@@ -14,4 +14,4 @@
 (require 'module-mermaid)
 (require 'module-webdev)
 (require 'module-hugo)
-(require 'module-ai)
+(require 'module-chatgpt)

@@ -18,6 +18,9 @@ roam-db
 /org-roam.db
 /elgrep-data.el
 /chatgpt
+/.chatgpt-shell.el
+/request
+transcript.txt
 /eln-cache
 /elgrep-data.el*
 /ellama-sessions
