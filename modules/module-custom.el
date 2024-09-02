@@ -61,6 +61,21 @@
   :type 'string
   :group 'wen-module)
 
+(defcustom wen-module-ai-scheme "http"
+  "The ollama scheme."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-ai-host "127.0.0.1"
+  "The ollama host."
+  :type 'string
+  :group 'wen-module)
+
+(defcustom wen-module-ai-port 11434
+  "The ollama port."
+  :type 'string
+  :group 'wen-module)
+
 (defcustom wen-module-ai-chat-model "llama3:8b"
   "The ollama chat model."
   :type 'string

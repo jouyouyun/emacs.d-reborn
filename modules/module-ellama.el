@@ -20,11 +20,17 @@
   (require 'llm-ollama)
   (setopt ellama-provider
           (make-llm-ollama
+           :scheme wen-module-ai-scheme
+           :host wen-module-ai-host
+           :port wen-module-ai-port
            :chat-model wen-module-ai-chat-model
            :embedding-model wen-module-ai-embedding-model))
   ;; Naming new sessions with llm
   (setopt ellama-naming-provider
           (make-llm-ollama
+           :scheme wen-module-ai-scheme
+           :host wen-module-ai-host
+           :port wen-module-ai-port
            :chat-model wen-module-ai-chat-model
            :embedding-model wen-module-ai-embedding-model))
   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
